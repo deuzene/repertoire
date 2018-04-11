@@ -26,7 +26,7 @@ while (1){
     ajouter_entree()        if ($reponse eq "a");
     rechercher()            if ($reponse eq "r");
     affiche_repertoire()    if ($reponse eq "v");
-    last                    if ($reponse eq ".");
+    last                    if ($reponse eq "..");
 }
 
 ecrire_repertoire();
