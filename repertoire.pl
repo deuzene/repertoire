@@ -1,5 +1,4 @@
 #!/usr/bin/env perl
-# TODO: inversion nom/prenom
 # TODO: verifier fonction supprimer
 use strict;
 use warnings;
@@ -58,8 +57,8 @@ sub ouvrir_repertoire () {
         open REP,"$repertoire" or die "Impossible de lire $repertoire : $!";
         while (<REP>) {
             ($nom, $prenom, $tel) = split(/#/);
-            push (@repertoire,{ 'prenom' => $nom,
-                                'nom'    => $prenom,
+            push (@repertoire,{ 'prenom' => $prenom,
+                                'nom'    => $nom,
                                 'tel'    => $tel
                               });
         }
@@ -115,7 +114,9 @@ sub modifier_entree {
 }
 
 sub supprimer_entree  {
-    my $index = @_;
+    my $index = shift;
+    say "supp: index = $index";
+    print "supp: $repertoire[$index]{prenom} $repertoire[$index]{nom} $repertoire[$index]{tel}\n";
     splice (@repertoire, $index, 1);
     ecrire_repertoire;
 }
