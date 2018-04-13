@@ -1,4 +1,6 @@
 #!/usr/bin/env perl
+# TODO: inversion nom/prenom
+# TODO: verifier fonction supprimer
 use strict;
 use warnings;
 use diagnostics;
@@ -15,18 +17,17 @@ sub affiche_repertoire;     sub affiche_entrees;    sub ajouter_entree;
 sub ecrire_repertoire;      sub modifier_entree;    sub ouvrir_repertoire;
 sub rechercher;             sub supprimer_entree;
 
-#TODO: a la sortie de modifier_entree on ne doit pas quitter le prog
 # ### programme principal #####################################################
 ouvrir_repertoire();
 
 while (1){
-    print "(A)jouter une entrée (R)echercher (V)oir le répertoire (.)quitter\n";
+    print "(A)jouter une entrée (R)echercher (V)oir le répertoire (..)quitter\n";
     print "Choix : ";
     chomp ($reponse = <>);
     ajouter_entree()        if ($reponse eq "a");
     rechercher()            if ($reponse eq "r");
     affiche_repertoire()    if ($reponse eq "v");
-    last                    if ($reponse eq "..");
+    exit                    if ($reponse eq "..");
 }
 
 ecrire_repertoire();
@@ -49,6 +50,7 @@ sub ajouter_entree () {
         print "Ajouter une autre entrée ? (o/n) ";
         chomp ($reponse = <>);
     }
+    ecrire_repertoire;
 }
 
 sub ouvrir_repertoire () {
@@ -89,30 +91,33 @@ sub ecrire_repertoire () {
 
 sub modifier_entree {
     while (1) {
-        my @r_hash = @_;
-        print "mod: $r_hash[0]{prenom} $r_hash[0]{nom} $r_hash[0]{tel}\n";
-        print "(P)rénom (N)om (T)éléphone : ";
+        my $index = @_;
+        print "mod: $repertoire[$index]{prenom} $repertoire[$index]{nom} $repertoire[$index]{tel}\n";
+        print "Modifier (P)rénom (N)om (T)éléphone : ";
         chomp ($reponse = <>);
         if ("$reponse" eq "p") {
             print "Nouveau prénom : ";
             chomp (my $nvPrenom = <>);
-            $r_hash[0]{prenom} = $nvPrenom;
+            $repertoire[$index]{prenom} = $nvPrenom;
         } elsif ("$reponse" eq "n") {
             print "Nouveau nom : ";
             chomp (my $nvNom = <>);
-            $r_hash[0]{nom} = $nvNom;
+            $repertoire[$index]{nom} = $nvNom;
         } elsif ("$reponse" eq "t") {
             print "Nouveau téléphone : ";
             chomp (my $nvTel = <>);
-            $r_hash[0]{tel} = $nvTel;
+            $repertoire[$index]{tel} = $nvTel;
         } elsif ("$reponse" eq ".") {
             return
         }
     }
+    ecrire_repertoire;
 }
 
-sub supprimer_entree ($) {
-    say "supprimer";
+sub supprimer_entree  {
+    my $index = @_;
+    splice (@repertoire, $index, 1);
+    ecrire_repertoire;
 }
 
 sub affiche_entrees (@) {
@@ -123,11 +128,11 @@ sub affiche_entrees (@) {
     print "Choix : ";
     chomp (my $index = <>);
     print "$repertoire[$index]{prenom} $repertoire[$index]{nom} $repertoire[$index]{tel}\n";
-    print "(M)odifier (S)upprimer (.)retour\n";
+    print "(M)odifier (S)upprimer (.)retour : ";
     chomp ($reponse = <>);
-    return                                 if ("$reponse" eq ".");
-    modifier_entree ($repertoire[$index])  if ("$reponse" eq "m");
-    supprimer_entree (\$repertoire[$index]) if ("$reponse" eq "s");
+    return                    if ("$reponse" eq ".");
+    modifier_entree ($index)  if ("$reponse" eq "m");
+    supprimer_entree ($index) if ("$reponse" eq "s");
 }
 
 sub rechercher () {
