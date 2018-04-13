@@ -72,10 +72,9 @@ sub ouvrir_repertoire () {
 
 sub affiche_repertoire () {
     foreach (@repertoire) {     # parcours tout le répertoire
-        print $_->{prenom} . "\t" . $_->{nom} . "\t" . $_->{tel} . "\n";
+        printf ("%-20s %-20s %-15s\n", $_->{prenom}, $_->{nom}, $_->{tel});
     }
 }
-
 
 sub ecrire_repertoire () {
     open REP, "> $repertoire" or die "Impossible d'ouvrir $repertoire en écriture : $!";
@@ -91,7 +90,7 @@ sub ecrire_repertoire () {
 sub modifier_entree {
     while (1) {
         my $index = @_;
-        print "mod: $repertoire[$index]{prenom} $repertoire[$index]{nom} $repertoire[$index]{tel}\n";
+        printf ("%-20s %-20s %-15s\n", $repertoire[$index]{prenom}, $repertoire[$index]{nom}, $repertoire[$index]{tel});
         print "Modifier (P)rénom (N)om (T)éléphone : ";
         chomp ($reponse = <>);
         if ("$reponse" eq "p") {
@@ -115,20 +114,21 @@ sub modifier_entree {
 
 sub supprimer_entree  {
     my $index = shift;
-    say "supp: index = $index";
-    print "supp: $repertoire[$index]{prenom} $repertoire[$index]{nom} $repertoire[$index]{tel}\n";
-    splice (@repertoire, $index, 1);
+    printf ("Êtes-vous sur de vouloir supprimer : %s %s\n", $repertoire[$index]{prenom}, $repertoire[$index]{nom});
+    print "o/n : ";
+    chomp ($reponse = <>);
+    splice (@repertoire, $index, 1) if ("$reponse" eq "o");
     ecrire_repertoire;
 }
 
 sub affiche_entrees (@) {
     my @liste = @_;
     foreach (@liste) {
-        print "[$_]: $repertoire[$_]{prenom} $repertoire[$_]{nom} $repertoire[$_]{tel}\n";
+        printf ("[%5s]: %-20s %-20s %-15s\n", $_,  $repertoire[$_]{prenom}, $repertoire[$_]{nom}, $repertoire[$_]{tel});
     }
     print "Choix : ";
     chomp (my $index = <>);
-    print "$repertoire[$index]{prenom} $repertoire[$index]{nom} $repertoire[$index]{tel}\n";
+    printf ("%-20s %-20s %-15s\n", $repertoire[$index]{prenom}, $repertoire[$index]{nom}, $repertoire[$index]{tel});
     print "(M)odifier (S)upprimer (.)retour : ";
     chomp ($reponse = <>);
     return                    if ("$reponse" eq ".");
