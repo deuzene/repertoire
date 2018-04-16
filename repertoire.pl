@@ -1,5 +1,4 @@
 #!/usr/bin/env perl
-# TODO: verifier fonction supprimer
 use strict;
 use warnings;
 use diagnostics;
@@ -15,6 +14,9 @@ sub affiche_repertoire;     sub affiche_entrees;    sub ajouter_entree;
 sub ecrire_repertoire;      sub modifier_entree;    sub ouvrir_repertoire;
 sub rechercher;             sub supprimer_entree;
 
+#TODO: supprimer : valider l'entrée
+#TODO: ajouter mail, adresse
+#TODO: plusieurs n° de tél
 # ### programme principal #####################################################
 ouvrir_repertoire();
 
@@ -75,7 +77,7 @@ sub ajouter_entree {
         print "Nom : ";
         chomp ( $nom = <> );
         print "Téléphone : ";
-        chomp ( $tel = <> );        #TODO: valider l'entrée
+        chomp ( $tel = <> );
 
         push ( @repertoire,{'prenom' => $prenom,
                             'nom'    => $nom,
