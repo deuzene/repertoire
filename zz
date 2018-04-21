@@ -1,0 +1,52 @@
+
+### nom: 'Éric'
+### prenom: 'Dumont'
+### tel: [
+###        '1111111111',
+###        '2222222222'
+###      ]
+
+### nom: 'Marcelle'
+### prenom: 'Amelac'
+### tel: [
+###        '3333333333'
+###      ]
+
+### nom: 'Syvain'
+### prenom: 'Boyer'
+### tel: [
+###        '4444444444',
+###        '5555555555',
+###        '6666666666'
+###      ]
+
+### nom: 'Colette'
+### prenom: 'Masson'
+### tel: [
+###        '7777777777'
+###      ]
+
+### @repertoire: [
+###                {
+###                  nom => 'Éric',
+###                  prenom => 'Dumont',
+###                  tels => [
+###                            '7777777777'
+###                          ]
+###                },
+###                {
+###                  nom => 'Marcelle',
+###                  prenom => 'Amelac',
+###                  tels => $VAR1->[0][0]{tels}
+###                },
+###                {
+###                  nom => 'Syvain',
+###                  prenom => 'Boyer',
+###                  tels => $VAR1->[0][0]{tels}
+###                },
+###                {
+###                  nom => 'Colette',
+###                  prenom => 'Masson',
+###                  tels => $VAR1->[0][0]{tels}
+###                }
+###              ]
