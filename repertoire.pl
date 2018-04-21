@@ -61,10 +61,13 @@ sub ouvrir_repertoire {
 sub ecrire_repertoire {
     open my $REP, ">", "$repertoire" or die "Impossible d'ouvrir $repertoire en écriture : $!";
 
+    my $count = 0;
     foreach (@repertoire){
-        print $REP $_->{'prenom'} . "#"          # on sépare les champs
-                 . $_->{'nom'}    . "#"          # avec des dièses
-                 . $_->{'tel'}    . "#\n";       #
+        print $REP $repertoire[$count]{'prenom'} . "#";       # on sépare les champe
+        print $REP $repertoire[$count]{'nom'}    . "#";
+        foreach (@repertoire[$count]->{tels}){
+            print $REP $_ . "#";
+        }
     }
     close $REP;
     return;
