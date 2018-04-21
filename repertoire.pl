@@ -9,6 +9,7 @@ use feature ":5.24";
 my ($nom, $prenom, $tel);       # variables temporaires
 my @repertoire ;                # le repertoire (array de hash)
 my $repertoire = "repertoire";  # fichier
+my @tel;                        # liste de n° de téléphone
 
 sub affiche_repertoire;     sub affiche_entrees;    sub ajouter_entree;
 sub ecrire_repertoire;      sub modifier_entree;    sub ouvrir_repertoire;
@@ -36,21 +37,23 @@ ecrire_repertoire();
 
 sub ouvrir_repertoire {
     if (-e $repertoire) {
-        # remplissage de @repertoire depuis le fichier repertoire
         open my $REP, "<", "$repertoire" or die "Impossible de lire $repertoire : $!";
 
         while (<$REP>) {
-            ($nom, $prenom, $tel) = split(/#/);
+            chomp;
+            ($nom, $prenom, @tels) = split(/#/);
+            ### nom: $nom
+            ### prenom: $prenom
+            ### tel: @tels
             push (@repertoire,{ 'prenom' => $prenom,
                                 'nom'    => $nom,
-                                'tel'    => $tel
+                                'tels'   => [@tels]
                               });
         }
-
+        ### @repertoire
         close $REP;
     } else {
         ajouter_entree(); # si le fichier n'existe pas creer repertoire
-        close $REP;
     }
     return;
 }
@@ -71,17 +74,22 @@ sub ajouter_entree {
     my $reponse;
     $reponse = "o";
 
-    while ( $reponse eq "o" ) {
+    while ($reponse eq "o") {
         print "Prenom : ";
-        chomp ( $prenom = <> );
+        chomp ($prenom = <>);
         print "Nom : ";
-        chomp ( $nom = <> );
-        print "Téléphone : ";
-        chomp ( $tel = <> );
+        chomp ($nom = <>);
+        while ($tel ne ".") {
+            my $count = 0;
+            print "Téléphone [$count] : ";
+            chomp ($tel = <> );
+            push (@tel, $tel);
+            $count++;
+        }
 
         push ( @repertoire,{'prenom' => $prenom,
                             'nom'    => $nom,
-                            'tel'    => $tel} );
+                            'tel'    => @tel} );
 
 
         print "Ajouter une autre entrée ? (o/n) ";
@@ -92,8 +100,12 @@ sub ajouter_entree {
 }
 
 sub affiche_repertoire {
-    foreach (@repertoire) {     # parcours tout le répertoire
-        printf ("%-20s %-20s %-15s\n", $_->{prenom}, $_->{nom}, $_->{tel});
+    foreach my $personne (@repertoire) {     # parcours tout le répertoire
+        printf ("%-20s %-20s", $personne->{prenom}, $personne->{nom});
+        foreach my $tel (@{$repertoire->{tel}}) {
+            printf ("%-15s", $tel);
+        }
+        print "\n";
     }
     return;
 }
