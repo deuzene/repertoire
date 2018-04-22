@@ -42,15 +42,11 @@ sub ouvrir_repertoire {
         while (<$REP>) {
             chomp;
             ($nom, $prenom, @tels) = split(/#/);
-            ### nom: $nom
-            ### prenom: $prenom
-            ### tel: @tels
             push (@repertoire,{ 'prenom' => $prenom,
                                 'nom'    => $nom,
                                 'tels'   => [@tels]
                               });
         }
-        ### @repertoire
         close $REP;
     } else {
         ajouter_entree(); # si le fichier n'existe pas creer repertoire
@@ -61,13 +57,10 @@ sub ouvrir_repertoire {
 sub ecrire_repertoire {
     open my $REP, ">", "$repertoire" or die "Impossible d'ouvrir $repertoire en écriture : $!";
 
-    my $count = 0;
     foreach (@repertoire){
-        print $REP $repertoire[$count]{'prenom'} . "#";       # on sépare les champe
-        print $REP $repertoire[$count]{'nom'}    . "#";
-        foreach (@repertoire[$count]->{tels}){
-            print $REP $_ . "#";
-        }
+        print $REP $_->{'prenom'} . "#"          # on sépare les champs
+                 . $_->{'nom'}    . "#"          # avec des dièses
+                 . $_->{'tel'}    . "#\n";       #
     }
     close $REP;
     return;
