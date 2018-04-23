@@ -55,15 +55,19 @@ sub ouvrir_repertoire {
 }
 
 sub ecrire_repertoire {
-    open my $REP, ">", "$repertoire" or die "Impossible d'ouvrir $repertoire en écriture : $!";
+  open my $REP, ">", "$repertoire"
+    or die "Impossible d'ouvrir $repertoire en écriture : $!";
 
-    foreach (@repertoire){
-        print $REP $_->{'prenom'} . "#"          # on sépare les champs
-                 . $_->{'nom'}    . "#"          # avec des dièses
-                 . $_->{'tel'}    . "#\n";       #
+  foreach my $personne (@repertoire) {
+    print $REP $personne->{'prenom'} . "#"    # on sépare les champs
+             . $personne->{'nom'}    . "#";   # avec des dièses
+    foreach my $tel (@{$personne->{'tels'}}) {
+      print $REP $tel . "#";
     }
-    close $REP;
-    return;
+    print $REP "\n";
+  }
+  close $REP;
+  return;
 }
 
 sub ajouter_entree {
@@ -98,7 +102,7 @@ sub ajouter_entree {
 sub affiche_repertoire {
     foreach my $personne (@repertoire) {     # parcours tout le répertoire
         printf ("%-20s %-20s", $personne->{prenom}, $personne->{nom});
-        foreach my $tel (@{$repertoire->{tel}}) {
+        foreach my $tel (@{$personne->{'tels'}}) {
             printf ("%-15s", $tel);
         }
         print "\n";
