@@ -6,10 +6,8 @@ use Smart::Comments;
 use Data::Dumper;
 use feature ":5.24";
 
-my ($nom, $prenom, $tel);       # variables temporaires
 my @repertoire ;                # le repertoire (array de hash)
 my $repertoire = "repertoire";  # fichier
-my @tel;                        # liste de n° de téléphone
 
 sub affiche_repertoire;     sub affiche_entrees;    sub ajouter_entree;
 sub ecrire_repertoire;      sub modifier_entree;    sub ouvrir_repertoire;
@@ -41,7 +39,7 @@ sub ouvrir_repertoire {
 
         while (<$REP>) {
             chomp;
-            ($nom, $prenom, @tels) = split(/#/);
+            my ($nom, $prenom, @tels) = split(/#/);
             push (@repertoire,{ 'prenom' => $prenom,
                                 'nom'    => $nom,
                                 'tels'   => [@tels]
@@ -97,15 +95,18 @@ sub ajouter_entree {
         print "Ajouter une autre entrée ? (o/n) ";
         chomp ($reponse = <>);
     }
+    ecrire_repertoire;
     return;
 }
 
 sub affiche_repertoire {
     foreach my $personne (@repertoire) {     # parcours tout le répertoire
-        printf ("%-20s %-20s", $personne->{prenom}, $personne->{nom});
+        printf "%-20s %-20s", $personne->{prenom}, $personne->{nom};
+
         foreach my $tel (@{$personne->{'tels'}}) {
-            printf ("%-15s", $tel);
+            printf "%-15s", $tel;
         }
+
         print "\n";
     }
     return;
@@ -153,6 +154,7 @@ sub supprimer_entree {
     ecrire_repertoire;
     return;
 }
+
 
 sub affiche_entrees {
     my @liste = @_;

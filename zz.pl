@@ -6,32 +6,8 @@ use Smart::Comments;
 use Data::Dumper;
 use feature ":5.24";
 
-my $repertoire = "repertoire";  # fichier
-my @repertoire ;                # le repertoire (array de hash)
-my ($nom, $prenom, $tel);       # variables temporaires
-my @tels;                       # liste de n° de téléphone
+my $aff = sprintf "[%5s]: %-20s %-20s", $index,  $repertoire[$index]{'prenom'}, $repertoire[$index]{'nom'};
 
-sub ouvrir_repertoire {
-    if (-e $repertoire) {
-        open my $REP, "<", "$repertoire" or die "Impossible de lire $repertoire : $!";
-
-        while (<$REP>) {
-            chomp;
-            ($nom, $prenom, @tels) = split(/#/);
-            ### nom: $nom
-            ### prenom: $prenom
-            ### tel: @tels
-            push (@repertoire,{ 'prenom' => $prenom,
-                                'nom'    => $nom,
-                                'tels'   => [@tels]
-                              });
-        }
-        ### @repertoire
-        close $REP;
-    } else {
-        # ajouter_entree(); # si le fichier n'existe pas creer repertoire
-    }
-    return;
+foreach my $j (@{$repertoire[$index]{'tels'}}){
+    $aff .= sprintf "%-15s", $j;
 }
-
-ouvrir_repertoire;
