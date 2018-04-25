@@ -71,31 +71,32 @@ sub ecrire_repertoire {
 }
 
 sub ajouter_entree {
-    my $reponse;
-    $reponse = "o";
+    my $reponse = "o";
+    my ($nom, $prenom);
+    my $tel="";
+    my @tels=();
 
     while ($reponse eq "o") {
         print "Prenom : ";
         chomp ($prenom = <>);
         print "Nom : ";
         chomp ($nom = <>);
+
         while ($tel ne ".") {
-            my $count = 0;
-            print "Téléphone [$count] : ";
+            print "Téléphone : ";
             chomp ($tel = <> );
-            push (@tel, $tel);
-            $count++;
+            push (@tels, $tel) unless ($tel eq ".");
         }
 
-        push ( @repertoire,{'prenom' => $prenom,
-                            'nom'    => $nom,
-                            'tel'    => @tel} );
-
+        push @repertoire, {
+                           'prenom' => $prenom,
+                           'nom'    => $nom,
+                           'tels'    => [@tels]
+                          };
 
         print "Ajouter une autre entrée ? (o/n) ";
         chomp ($reponse = <>);
     }
-    ecrire_repertoire;
     return;
 }
 
