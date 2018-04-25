@@ -3,6 +3,12 @@ if &cp | set nocp | endif
 let s:cpo_save=&cpo
 set cpo&vim
 inoremap <silent> <SNR>20_AutoPairsReturn =AutoPairsReturn()
+<<<<<<< HEAD
+=======
+imap <S-Tab> <Plug>SuperTabBackward
+inoremap <C-Tab> 	
+inoremap <silent> <SNR>22_AutoPairsReturn =AutoPairsReturn()
+>>>>>>> tels
 nmap 	 I	
 vmap 	 >gv
 nnoremap  cd :cd %:p:h:pwd
@@ -53,9 +59,16 @@ nmap ySs <Plug>YSsurround
 nmap yss <Plug>Yssurround
 nmap yS <Plug>YSurround
 nmap ys <Plug>Ysurround
+<<<<<<< HEAD
 vnoremap <silent> <Plug>NetrwBrowseXVis :call netrw#BrowseXVis()
 nnoremap <silent> <Plug>NetrwBrowseX :call netrw#BrowseX(expand((exists("g:netrw_gx")? g:netrw_gx : '<cfile>')),netrw#CheckIfRemote())
 nnoremap <SNR>40_: :=v:count ? v:count : ''
+=======
+nnoremap <SNR>40_: :=v:count ? v:count : ''
+vnoremap <silent> <Plug>NetrwBrowseXVis :call netrw#BrowseXVis()
+nnoremap <silent> <Plug>NetrwBrowseX :call netrw#BrowseX(expand((exists("g:netrw_gx")? g:netrw_gx : '<cfile>')),netrw#CheckIfRemote())
+nnoremap <SNR>43_: :=v:count ? v:count : ''
+>>>>>>> tels
 xnoremap <Plug>ColorFgBg :ColorSwapFgBg
 nnoremap <Plug>ColorFgBg :ColorSwapFgBg
 xnoremap <Plug>ColorContrast :ColorContrast
@@ -69,6 +82,10 @@ nmap <S-Tab> ^i<BS>
 vmap <S-Tab> <gv
 imap S <Plug>ISurround
 imap s <Plug>Isurround
+<<<<<<< HEAD
+=======
+imap 	 <Plug>SuperTabForward
+>>>>>>> tels
 imap  <Plug>Isurround
 let &cpo=s:cpo_save
 unlet s:cpo_save
@@ -100,9 +117,16 @@ set makeprg=perl\ -c\ %\ $*
 set matchtime=2
 set mouse=a
 set omnifunc=syntaxcomplete#Complete
+<<<<<<< HEAD
 set operatorfunc=<SNR>23_go
 set ruler
 set runtimepath=~/.vim,~/.vim/plugged/auto-pairs/,~/.vim/plugged/lightline.vim/,~/.vim/plugged/vim-eunuch/,~/.vim/plugged/vim-commentary/,~/.vim/plugged/vim-surround/,~/.vim/plugged/vim-easy-align/,~/.vim/plugged/tagbar/,~/.vim/plugged/Colorizer/,~/.vim/plugged/syntastic/,~/.vim/plugged/vim-fugitive/,~/.vim/plugged/gruvbox/,~/.vim/plugged/badwolf/,/usr/share/vim/vimfiles,/usr/share/vim/vim80,/usr/share/vim/vim80/pack/dist/opt/matchit,/usr/share/vim/vimfiles/after,~/.vim/after
+=======
+set operatorfunc=<SNR>25_go
+set pyxversion=2
+set ruler
+set runtimepath=~/.vim,~/.vim/plugged/auto-pairs/,~/.vim/plugged/lightline.vim/,~/.vim/plugged/vim-eunuch/,~/.vim/plugged/vim-commentary/,~/.vim/plugged/vim-surround/,~/.vim/plugged/vim-easy-align/,~/.vim/plugged/tagbar/,~/.vim/plugged/Colorizer/,~/.vim/plugged/syntastic/,~/.vim/plugged/supertab/,~/.vim/plugged/vim-fugitive/,~/.vim/plugged/vim-perl/,~/.vim/plugged/gruvbox/,~/.vim/plugged/seiya.vim/,~/.vim/plugged/neodark.vim/,~/.vim/plugged/badwolf/,/usr/share/vim/vimfiles,/usr/share/vim/vim80,/usr/share/vim/vim80/pack/dist/opt/matchit,/usr/share/vim/vimfiles/after,~/.vim/plugged/vim-perl/after,~/.vim/after
+>>>>>>> tels
 set scrolloff=9
 set shiftwidth=4
 set showbreak=↪\ 
@@ -113,7 +137,11 @@ set smartindent
 set smarttab
 set splitbelow
 set splitright
+<<<<<<< HEAD
 set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*
+=======
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}%*%#warningmsg#%{SyntasticStatuslineFlag()}
+>>>>>>> tels
 set noswapfile
 set switchbuf=useopen,usetab,newtab
 set tabline=%!lightline#tabline()
@@ -126,6 +154,10 @@ set whichwrap=b,s,<,>,h,l
 set wildignore=*.o,*~,*.pyc,*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 set wildmenu
 set wildmode=list:longest
+<<<<<<< HEAD
+=======
+set window=45
+>>>>>>> tels
 set nowritebackup
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
@@ -135,6 +167,7 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
+<<<<<<< HEAD
 badd +1 repertoire.pl
 badd +11 test.pl
 badd +1 ~/.vimrc
@@ -150,6 +183,36 @@ edit repertoire.pl
 set splitbelow splitright
 wincmd t
 set winminheight=1 winheight=1 winminwidth=1 winwidth=1
+=======
+badd +34 repertoire.pl
+badd +20 test.pl
+badd +565 ~/.vimrc
+badd +1 repertoire
+badd +26 zz.pl
+badd +1 zz
+badd +1 ~/.tmux.conf
+badd +4 repertoire.sav
+argglobal
+silent! argdel *
+$argadd repertoire.pl
+edit test.pl
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
+wincmd t
+set winminheight=1 winheight=1 winminwidth=1 winwidth=1
+exe 'vert 1resize ' . ((&columns * 97 + 85) / 170)
+exe '2resize ' . ((&lines * 8 + 23) / 46)
+exe 'vert 2resize ' . ((&columns * 72 + 85) / 170)
+exe '3resize ' . ((&lines * 33 + 23) / 46)
+exe 'vert 3resize ' . ((&columns * 72 + 85) / 170)
+>>>>>>> tels
 argglobal
 let s:cpo_save=&cpo
 set cpo&vim
@@ -307,6 +370,7 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
+<<<<<<< HEAD
 let s:l = 111 - ((27 * winheight(0) + 18) / 37)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
@@ -331,168 +395,13 @@ exe 'vert 2resize ' . ((&columns * 75 + 75) / 151)
 exe '3resize ' . ((&lines * 35 + 20) / 41)
 exe 'vert 3resize ' . ((&columns * 75 + 75) / 151)
 argglobal
-let s:cpo_save=&cpo
-set cpo&vim
-inoremap <buffer> <silent> <BS> =AutoPairsDelete()
-inoremap <buffer> <silent> § =AutoPairsMoveCharacter('''')
-inoremap <buffer> <silent> ¢ =AutoPairsMoveCharacter('"')
-inoremap <buffer> <silent> © =AutoPairsMoveCharacter(')')
-inoremap <buffer> <silent> ¨ =AutoPairsMoveCharacter('(')
-inoremap <buffer> <silent> î :call AutoPairsJump()a
-inoremap <buffer> <silent> <expr> ð AutoPairsToggle()
-inoremap <buffer> <silent> â =AutoPairsBackInsert()
-inoremap <buffer> <silent> å =AutoPairsFastWrap()
-inoremap <buffer> <silent> ý =AutoPairsMoveCharacter('}')
-inoremap <buffer> <silent> û =AutoPairsMoveCharacter('{')
-inoremap <buffer> <silent> Ý =AutoPairsMoveCharacter(']')
-inoremap <buffer> <silent> Û =AutoPairsMoveCharacter('[')
-inoremap <buffer> <silent>  =AutoPairsDelete()
-inoremap <buffer> <silent>   =AutoPairsSpace()
-inoremap <buffer> <silent> " =AutoPairsInsert('"')
-inoremap <buffer> <silent> ' =AutoPairsInsert('''')
-inoremap <buffer> <silent> ( =AutoPairsInsert('(')
-inoremap <buffer> <silent> ) =AutoPairsInsert(')')
-noremap <buffer> <silent> î :call AutoPairsJump()
-noremap <buffer> <silent> ð :call AutoPairsToggle()
-inoremap <buffer> <silent> [ =AutoPairsInsert('[')
-inoremap <buffer> <silent> ] =AutoPairsInsert(']')
-inoremap <buffer> <silent> ` =AutoPairsInsert('`')
-inoremap <buffer> <silent> { =AutoPairsInsert('{')
-inoremap <buffer> <silent> } =AutoPairsInsert('}')
-let &cpo=s:cpo_save
-unlet s:cpo_save
-setlocal keymap=
-setlocal noarabic
-setlocal autoindent
-setlocal backupcopy=
-setlocal balloonexpr=
-setlocal nobinary
-setlocal nobreakindent
-setlocal breakindentopt=
-setlocal bufhidden=
-setlocal buflisted
-setlocal buftype=
-setlocal nocindent
-setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
-setlocal cinoptions=
-setlocal cinwords=if,else,while,do,for,switch
-set colorcolumn=80
-setlocal colorcolumn=80
-setlocal comments=:#
-setlocal commentstring=#%s
-setlocal complete=.,w,b,u,t,i
-setlocal concealcursor=
-setlocal conceallevel=0
-setlocal completefunc=
-setlocal nocopyindent
-setlocal cryptmethod=
-setlocal nocursorbind
-setlocal nocursorcolumn
-setlocal nocursorline
-setlocal define=[^A-Za-z_]
-setlocal dictionary=
-setlocal nodiff
-setlocal equalprg=
-setlocal errorformat=
-setlocal expandtab
-if &filetype != 'perl'
-setlocal filetype=perl
-endif
-setlocal fixendofline
-setlocal foldcolumn=0
-set nofoldenable
-setlocal nofoldenable
-setlocal foldexpr=0
-setlocal foldignore=#
-setlocal foldlevel=0
-setlocal foldmarker={{{,}}}
-set foldmethod=marker
-setlocal foldmethod=syntax
-setlocal foldminlines=1
-setlocal foldnestmax=20
-setlocal foldtext=foldtext()
-setlocal formatexpr=
-setlocal formatoptions=crqol
-setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
-setlocal formatprg=
-setlocal grepprg=
-setlocal iminsert=0
-setlocal imsearch=-1
-setlocal include=\\<\\(use\\|require\\)\\>
-setlocal includeexpr=substitute(substitute(substitute(v:fname,'::','/','g'),'->*','',''),'$','.pm','')
-setlocal indentexpr=GetPerlIndent()
-setlocal indentkeys=0{,0},:,0#,!^F,o,O,e,0=,0),0],0=or,0=and
-setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255,:
-setlocal keywordprg=perldoc\ -f
-set linebreak
-setlocal linebreak
-setlocal nolisp
-setlocal lispwords=
-setlocal nolist
-setlocal makeencoding=
-setlocal makeprg=
-setlocal matchpairs=(:),{:},[:]
-setlocal modeline
-setlocal modifiable
-setlocal nrformats=bin,octal,hex
-set number
-setlocal number
-setlocal numberwidth=4
-setlocal omnifunc=syntaxcomplete#Complete
-setlocal path=.,/usr/include,,,perl:\ warning:\ Setting\ locale\ failed.\
-perl:\ warning:\ Please\ check\ that\ your\ locale\ settings:\
-\	LANGUAGE\ =\ \"\",\
-\	LC_ALL\ =\ \"\",\
-\	LC_NUMERIC\ =\ \"fr_FR.UTF-8\",\
-\	LC_MESSAGES\ =\ \"\",\
-\	LANG\ =\ \"fr\"\
-\ \ \ \ are\ supported\ and\ installed\ on\ your\ system.\
-perl:\ warning:\ Falling\ back\ to\ the\ standard\ locale\ (\"C\").\
-/home/manu/perl5/lib/perl5/5.26.1/x86_64-linux-thread-multi,~/perl5/lib/perl5/5.26.1,~/perl5/lib/perl5/x86_64-linux-thread-multi,~/perl5/lib/perl5,~/Scripts/perl/modules,/usr/local/lib64/perl5,/usr/local/share/perl5,/usr/lib64/perl5/vendor_perl,/usr/share/perl5/vendor_perl,/usr/lib64/perl5,/usr/share/perl5
-setlocal nopreserveindent
-setlocal nopreviewwindow
-setlocal quoteescape=\\
-setlocal noreadonly
-setlocal norelativenumber
-setlocal norightleft
-setlocal rightleftcmd=search
-setlocal noscrollbind
-setlocal shiftwidth=4
-setlocal noshortname
-setlocal signcolumn=auto
-setlocal smartindent
-setlocal softtabstop=0
-setlocal nospell
-setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
-setlocal spellfile=
-setlocal spelllang=en
-setlocal statusline=%{lightline#link()}%#LightlineLeft_inactive_0#%(\ %{LightlineFilename()}\ %)%#LightlineLeft_inactive_0_1#%#LightlineMiddle_inactive#%=%#LightlineRight_inactive_1_2#%#LightlineRight_inactive_1#%(\ %3p%%\ %)%#LightlineRight_inactive_0_1#%#LightlineRight_inactive_0#%(\ %3l:%-2v\ %)
-setlocal suffixesadd=
-setlocal noswapfile
-setlocal synmaxcol=3000
-if &syntax != 'perl'
-setlocal syntax=perl
-endif
-setlocal tabstop=4
-setlocal tagcase=
-setlocal tags=
-setlocal termkey=
-setlocal termsize=
-setlocal textwidth=500
-setlocal thesaurus=
-setlocal noundofile
-setlocal undolevels=-123456
-setlocal nowinfixheight
-setlocal nowinfixwidth
-setlocal wrap
-setlocal wrapmargin=0
-let s:l = 12 - ((11 * winheight(0) + 18) / 37)
+=======
+let s:l = 41 - ((24 * winheight(0) + 21) / 42)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-12
-normal! 011|
+41
+normal! 019|
 wincmd w
 argglobal
 if bufexists('repertoire') | buffer repertoire | else | edit repertoire | endif
@@ -643,6 +552,412 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
+let s:l = 1 - ((0 * winheight(0) + 4) / 8)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+argglobal
+if bufexists('zz.pl') | buffer zz.pl | else | edit zz.pl | endif
+>>>>>>> tels
+let s:cpo_save=&cpo
+set cpo&vim
+inoremap <buffer> <silent> <BS> =AutoPairsDelete()
+inoremap <buffer> <silent> § =AutoPairsMoveCharacter('''')
+inoremap <buffer> <silent> ¢ =AutoPairsMoveCharacter('"')
+inoremap <buffer> <silent> © =AutoPairsMoveCharacter(')')
+inoremap <buffer> <silent> ¨ =AutoPairsMoveCharacter('(')
+inoremap <buffer> <silent> î :call AutoPairsJump()a
+inoremap <buffer> <silent> <expr> ð AutoPairsToggle()
+inoremap <buffer> <silent> â =AutoPairsBackInsert()
+inoremap <buffer> <silent> å =AutoPairsFastWrap()
+inoremap <buffer> <silent> ý =AutoPairsMoveCharacter('}')
+inoremap <buffer> <silent> û =AutoPairsMoveCharacter('{')
+inoremap <buffer> <silent> Ý =AutoPairsMoveCharacter(']')
+inoremap <buffer> <silent> Û =AutoPairsMoveCharacter('[')
+inoremap <buffer> <silent>  =AutoPairsDelete()
+inoremap <buffer> <silent>   =AutoPairsSpace()
+inoremap <buffer> <silent> " =AutoPairsInsert('"')
+inoremap <buffer> <silent> ' =AutoPairsInsert('''')
+inoremap <buffer> <silent> ( =AutoPairsInsert('(')
+inoremap <buffer> <silent> ) =AutoPairsInsert(')')
+noremap <buffer> <silent> î :call AutoPairsJump()
+noremap <buffer> <silent> ð :call AutoPairsToggle()
+inoremap <buffer> <silent> [ =AutoPairsInsert('[')
+inoremap <buffer> <silent> ] =AutoPairsInsert(']')
+inoremap <buffer> <silent> ` =AutoPairsInsert('`')
+inoremap <buffer> <silent> { =AutoPairsInsert('{')
+inoremap <buffer> <silent> } =AutoPairsInsert('}')
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=80
+setlocal colorcolumn=80
+setlocal comments=:#
+setlocal commentstring=#%s
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=[^A-Za-z_]
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'perl'
+setlocal filetype=perl
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+set nofoldenable
+setlocal nofoldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+set foldmethod=marker
+setlocal foldmethod=syntax
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=crqol
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=\\<\\(use\\|require\\)\\>
+setlocal includeexpr=substitute(substitute(substitute(v:fname,'::','/','g'),'->*','',''),'$','.pm','')
+setlocal indentexpr=GetPerlIndent()
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e,0=,0),0],0=or,0=and
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,:
+setlocal keywordprg=perldoc\ -f
+set linebreak
+setlocal linebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=syntaxcomplete#Complete
+setlocal path=.,/usr/include,,,perl:\ warning:\ Setting\ locale\ failed.\
+perl:\ warning:\ Please\ check\ that\ your\ locale\ settings:\
+\	LANGUAGE\ =\ \"\",\
+\	LC_ALL\ =\ \"\",\
+\	LC_NUMERIC\ =\ \"fr_FR.UTF-8\",\
+\	LC_MESSAGES\ =\ \"\",\
+\	LANG\ =\ \"fr\"\
+\ \ \ \ are\ supported\ and\ installed\ on\ your\ system.\
+perl:\ warning:\ Falling\ back\ to\ the\ standard\ locale\ (\"C\").\
+/home/manu/perl5/lib/perl5/5.26.1/x86_64-linux-thread-multi,~/perl5/lib/perl5/5.26.1,~/perl5/lib/perl5/x86_64-linux-thread-multi,~/perl5/lib/perl5,~/Scripts/perl/modules,/usr/local/lib64/perl5,/usr/local/share/perl5,/usr/lib64/perl5/vendor_perl,/usr/share/perl5/vendor_perl,/usr/lib64/perl5,/usr/share/perl5
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal signcolumn=auto
+setlocal smartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%{lightline#link()}%#LightlineLeft_inactive_0#%(\ %{LightlineFilename()}\ %)%#LightlineLeft_inactive_0_1#%#LightlineMiddle_inactive#%=%#LightlineRight_inactive_1_2#%#LightlineRight_inactive_1#%(\ %3p%%\ %)%#LightlineRight_inactive_0_1#%#LightlineRight_inactive_0#%(\ %3l:%-2v\ %)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != 'perl'
+setlocal syntax=perl
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tags=
+setlocal termkey=
+setlocal termsize=
+setlocal textwidth=500
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+<<<<<<< HEAD
+let s:l = 12 - ((11 * winheight(0) + 18) / 37)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+12
+normal! 011|
+wincmd w
+argglobal
+if bufexists('repertoire') | buffer repertoire | else | edit repertoire | endif
+=======
+let s:l = 1 - ((0 * winheight(0) + 16) / 33)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 97 + 85) / 170)
+exe '2resize ' . ((&lines * 8 + 23) / 46)
+exe 'vert 2resize ' . ((&columns * 72 + 85) / 170)
+exe '3resize ' . ((&lines * 33 + 23) / 46)
+exe 'vert 3resize ' . ((&columns * 72 + 85) / 170)
+tabedit repertoire.pl
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
+wincmd t
+set winminheight=1 winheight=1 winminwidth=1 winwidth=1
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 170)
+exe '2resize ' . ((&lines * 36 + 23) / 46)
+exe 'vert 2resize ' . ((&columns * 84 + 85) / 170)
+exe '3resize ' . ((&lines * 5 + 23) / 46)
+exe 'vert 3resize ' . ((&columns * 84 + 85) / 170)
+argglobal
+>>>>>>> tels
+let s:cpo_save=&cpo
+set cpo&vim
+inoremap <buffer> <silent> <BS> =AutoPairsDelete()
+inoremap <buffer> <silent> § =AutoPairsMoveCharacter('''')
+inoremap <buffer> <silent> ¢ =AutoPairsMoveCharacter('"')
+inoremap <buffer> <silent> © =AutoPairsMoveCharacter(')')
+inoremap <buffer> <silent> ¨ =AutoPairsMoveCharacter('(')
+inoremap <buffer> <silent> î :call AutoPairsJump()a
+inoremap <buffer> <silent> <expr> ð AutoPairsToggle()
+inoremap <buffer> <silent> â =AutoPairsBackInsert()
+inoremap <buffer> <silent> å =AutoPairsFastWrap()
+inoremap <buffer> <silent> ý =AutoPairsMoveCharacter('}')
+inoremap <buffer> <silent> û =AutoPairsMoveCharacter('{')
+inoremap <buffer> <silent> Ý =AutoPairsMoveCharacter(']')
+inoremap <buffer> <silent> Û =AutoPairsMoveCharacter('[')
+inoremap <buffer> <silent>  =AutoPairsDelete()
+inoremap <buffer> <silent>   =AutoPairsSpace()
+inoremap <buffer> <silent> " =AutoPairsInsert('"')
+inoremap <buffer> <silent> ' =AutoPairsInsert('''')
+inoremap <buffer> <silent> ( =AutoPairsInsert('(')
+inoremap <buffer> <silent> ) =AutoPairsInsert(')')
+noremap <buffer> <silent> î :call AutoPairsJump()
+noremap <buffer> <silent> ð :call AutoPairsToggle()
+inoremap <buffer> <silent> [ =AutoPairsInsert('[')
+inoremap <buffer> <silent> ] =AutoPairsInsert(']')
+inoremap <buffer> <silent> ` =AutoPairsInsert('`')
+inoremap <buffer> <silent> { =AutoPairsInsert('{')
+inoremap <buffer> <silent> } =AutoPairsInsert('}')
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=80
+setlocal colorcolumn=80
+<<<<<<< HEAD
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=/*%s*/
+=======
+setlocal comments=:#
+setlocal commentstring=#%s
+>>>>>>> tels
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+<<<<<<< HEAD
+setlocal define=
+=======
+setlocal define=[^A-Za-z_]
+>>>>>>> tels
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+<<<<<<< HEAD
+if &filetype != ''
+setlocal filetype=
+=======
+if &filetype != 'perl'
+setlocal filetype=perl
+>>>>>>> tels
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+set nofoldenable
+setlocal nofoldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+set foldmethod=marker
+<<<<<<< HEAD
+setlocal foldmethod=marker
+=======
+setlocal foldmethod=syntax
+>>>>>>> tels
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+<<<<<<< HEAD
+setlocal formatoptions=tcq
+=======
+setlocal formatoptions=crqol
+>>>>>>> tels
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+<<<<<<< HEAD
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+=======
+setlocal include=\\<\\(use\\|require\\)\\>
+setlocal includeexpr=substitute(substitute(substitute(v:fname,'::','/','g'),'->*','',''),'$','.pm','')
+setlocal indentexpr=GetPerlIndent()
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e,0=,0),0],0=or,0=and
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,:
+setlocal keywordprg=perldoc\ -f
+>>>>>>> tels
+set linebreak
+setlocal linebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=syntaxcomplete#Complete
+<<<<<<< HEAD
+setlocal path=
+=======
+setlocal path=.,/usr/include,,,perl:\ warning:\ Setting\ locale\ failed.\
+perl:\ warning:\ Please\ check\ that\ your\ locale\ settings:\
+\	LANGUAGE\ =\ \"\",\
+\	LC_ALL\ =\ \"\",\
+\	LC_NUMERIC\ =\ \"fr_FR.UTF-8\",\
+\	LC_MESSAGES\ =\ \"\",\
+\	LANG\ =\ \"fr\"\
+\ \ \ \ are\ supported\ and\ installed\ on\ your\ system.\
+perl:\ warning:\ Falling\ back\ to\ the\ standard\ locale\ (\"C\").\
+/home/manu/perl5/lib/perl5/5.26.1/x86_64-linux-thread-multi,~/perl5/lib/perl5/5.26.1,~/perl5/lib/perl5/x86_64-linux-thread-multi,~/perl5/lib/perl5,~/Scripts/perl/modules,/usr/local/lib64/perl5,/usr/local/share/perl5,/usr/lib64/perl5/vendor_perl,/usr/share/perl5/vendor_perl,/usr/lib64/perl5,/usr/share/perl5
+>>>>>>> tels
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal signcolumn=auto
+setlocal smartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%{lightline#link()}%#LightlineLeft_inactive_0#%(\ %{LightlineFilename()}\ %)%#LightlineLeft_inactive_0_1#%#LightlineMiddle_inactive#%=%#LightlineRight_inactive_1_2#%#LightlineRight_inactive_1#%(\ %3p%%\ %)%#LightlineRight_inactive_0_1#%#LightlineRight_inactive_0#%(\ %3l:%-2v\ %)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+<<<<<<< HEAD
+if &syntax != ''
+setlocal syntax=
+=======
+if &syntax != 'perl'
+setlocal syntax=perl
+>>>>>>> tels
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tags=
+setlocal termkey=
+setlocal termsize=
+setlocal textwidth=500
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+<<<<<<< HEAD
 let s:l = 2 - ((1 * winheight(0) + 0) / 1)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
@@ -652,6 +967,17 @@ normal! 0
 wincmd w
 argglobal
 if bufexists('zz.pl') | buffer zz.pl | else | edit zz.pl | endif
+=======
+let s:l = 73 - ((27 * winheight(0) + 21) / 42)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+73
+normal! 0
+wincmd w
+argglobal
+if bufexists('test.pl') | buffer test.pl | else | edit test.pl | endif
+>>>>>>> tels
 let s:cpo_save=&cpo
 set cpo&vim
 inoremap <buffer> <silent> <BS> =AutoPairsDelete()
@@ -808,6 +1134,7 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
+<<<<<<< HEAD
 let s:l = 3 - ((2 * winheight(0) + 17) / 35)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
@@ -821,6 +1148,176 @@ exe '2resize ' . ((&lines * 1 + 20) / 41)
 exe 'vert 2resize ' . ((&columns * 75 + 75) / 151)
 exe '3resize ' . ((&lines * 35 + 20) / 41)
 exe 'vert 3resize ' . ((&columns * 75 + 75) / 151)
+=======
+let s:l = 72 - ((9 * winheight(0) + 18) / 36)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+72
+normal! 0
+wincmd w
+argglobal
+if bufexists('repertoire') | buffer repertoire | else | edit repertoire | endif
+let s:cpo_save=&cpo
+set cpo&vim
+inoremap <buffer> <silent> <BS> =AutoPairsDelete()
+inoremap <buffer> <silent> § =AutoPairsMoveCharacter('''')
+inoremap <buffer> <silent> ¢ =AutoPairsMoveCharacter('"')
+inoremap <buffer> <silent> © =AutoPairsMoveCharacter(')')
+inoremap <buffer> <silent> ¨ =AutoPairsMoveCharacter('(')
+inoremap <buffer> <silent> î :call AutoPairsJump()a
+inoremap <buffer> <silent> <expr> ð AutoPairsToggle()
+inoremap <buffer> <silent> â =AutoPairsBackInsert()
+inoremap <buffer> <silent> å =AutoPairsFastWrap()
+inoremap <buffer> <silent> ý =AutoPairsMoveCharacter('}')
+inoremap <buffer> <silent> û =AutoPairsMoveCharacter('{')
+inoremap <buffer> <silent> Ý =AutoPairsMoveCharacter(']')
+inoremap <buffer> <silent> Û =AutoPairsMoveCharacter('[')
+inoremap <buffer> <silent>  =AutoPairsDelete()
+inoremap <buffer> <silent>   =AutoPairsSpace()
+inoremap <buffer> <silent> " =AutoPairsInsert('"')
+inoremap <buffer> <silent> ' =AutoPairsInsert('''')
+inoremap <buffer> <silent> ( =AutoPairsInsert('(')
+inoremap <buffer> <silent> ) =AutoPairsInsert(')')
+noremap <buffer> <silent> î :call AutoPairsJump()
+noremap <buffer> <silent> ð :call AutoPairsToggle()
+inoremap <buffer> <silent> [ =AutoPairsInsert('[')
+inoremap <buffer> <silent> ] =AutoPairsInsert(']')
+inoremap <buffer> <silent> ` =AutoPairsInsert('`')
+inoremap <buffer> <silent> { =AutoPairsInsert('{')
+inoremap <buffer> <silent> } =AutoPairsInsert('}')
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=80
+setlocal colorcolumn=80
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != ''
+setlocal filetype=
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+set nofoldenable
+setlocal nofoldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+set foldmethod=marker
+setlocal foldmethod=marker
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcq
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+set linebreak
+setlocal linebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=syntaxcomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal signcolumn=auto
+setlocal smartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%{lightline#link()}%#LightlineLeft_inactive_0#%(\ %{LightlineFilename()}\ %)%#LightlineLeft_inactive_0_1#%#LightlineMiddle_inactive#%=%#LightlineRight_inactive_1_2#%#LightlineRight_inactive_1#%(\ %3p%%\ %)%#LightlineRight_inactive_0_1#%#LightlineRight_inactive_0#%(\ %3l:%-2v\ %)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != ''
+setlocal syntax=
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tags=
+setlocal termkey=
+setlocal termsize=
+setlocal textwidth=500
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+let s:l = 4 - ((3 * winheight(0) + 2) / 5)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+4
+normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 170)
+exe '2resize ' . ((&lines * 36 + 23) / 46)
+exe 'vert 2resize ' . ((&columns * 84 + 85) / 170)
+exe '3resize ' . ((&lines * 5 + 23) / 46)
+exe 'vert 3resize ' . ((&columns * 84 + 85) / 170)
+>>>>>>> tels
 tabedit ~/.vimrc
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -829,8 +1326,13 @@ vsplit
 wincmd w
 wincmd t
 set winminheight=1 winheight=1 winminwidth=1 winwidth=1
+<<<<<<< HEAD
 exe 'vert 1resize ' . ((&columns * 76 + 75) / 151)
 exe 'vert 2resize ' . ((&columns * 74 + 75) / 151)
+=======
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 84 + 85) / 170)
+>>>>>>> tels
 argglobal
 let s:cpo_save=&cpo
 set cpo&vim
@@ -991,12 +1493,21 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
+<<<<<<< HEAD
 let s:l = 322 - ((17 * winheight(0) + 18) / 37)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 322
 normal! 032|
+=======
+let s:l = 573 - ((30 * winheight(0) + 21) / 42)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+573
+normal! 042|
+>>>>>>> tels
 wincmd w
 argglobal
 if bufexists('~/.tmux.conf') | buffer ~/.tmux.conf | else | edit ~/.tmux.conf | endif
@@ -1147,6 +1658,7 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
+<<<<<<< HEAD
 let s:l = 15 - ((14 * winheight(0) + 18) / 37)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
@@ -1157,6 +1669,18 @@ wincmd w
 exe 'vert 1resize ' . ((&columns * 76 + 75) / 151)
 exe 'vert 2resize ' . ((&columns * 74 + 75) / 151)
 tabnext 2
+=======
+let s:l = 28 - ((16 * winheight(0) + 21) / 42)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+28
+normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 84 + 85) / 170)
+tabnext 3
+>>>>>>> tels
 if exists('s:wipebuf') && s:wipebuf != bufnr('%')
   silent exe 'bwipe ' . s:wipebuf
 endif

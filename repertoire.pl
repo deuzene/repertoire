@@ -42,15 +42,11 @@ sub ouvrir_repertoire {
         while (<$REP>) {
             chomp;
             ($nom, $prenom, @tels) = split(/#/);
-            ### nom: $nom
-            ### prenom: $prenom
-            ### tel: @tels
             push (@repertoire,{ 'prenom' => $prenom,
                                 'nom'    => $nom,
                                 'tels'   => [@tels]
                               });
         }
-        ### @repertoire
         close $REP;
     } else {
         ajouter_entree(); # si le fichier n'existe pas creer repertoire
@@ -59,53 +55,55 @@ sub ouvrir_repertoire {
 }
 
 sub ecrire_repertoire {
-    open my $REP, ">", "$repertoire" or die "Impossible d'ouvrir $repertoire en écriture : $!";
+  open my $REP, ">", "$repertoire"
+    or die "Impossible d'ouvrir $repertoire en écriture : $!";
 
-    my $count = 0;
-    foreach (@repertoire){
-        print $REP $repertoire[$count]{'prenom'} . "#";       # on sépare les champe
-        print $REP $repertoire[$count]{'nom'}    . "#";
-        foreach (@repertoire[$count]->{tels}){
-            print $REP $_ . "#";
-        }
+  foreach my $personne (@repertoire) {
+    print $REP $personne->{'prenom'} . "#"    # on sépare les champs
+             . $personne->{'nom'}    . "#";   # avec des dièses
+    foreach my $tel (@{$personne->{'tels'}}) {
+      print $REP $tel . "#";
     }
-    close $REP;
-    return;
+    print $REP "\n";
+  }
+  close $REP;
+  return;
 }
 
 sub ajouter_entree {
-    my $reponse;
-    $reponse = "o";
+    my $reponse = "o";
+    my ($nom, $prenom);
+    my $tel="";
+    my @tels=();
 
     while ($reponse eq "o") {
         print "Prenom : ";
         chomp ($prenom = <>);
         print "Nom : ";
         chomp ($nom = <>);
+
         while ($tel ne ".") {
-            my $count = 0;
-            print "Téléphone [$count] : ";
+            print "Téléphone : ";
             chomp ($tel = <> );
-            push (@tel, $tel);
-            $count++;
+            push (@tels, $tel) unless ($tel eq ".");
         }
 
-        push ( @repertoire,{'prenom' => $prenom,
-                            'nom'    => $nom,
-                            'tel'    => @tel} );
-
+        push @repertoire, {
+                           'prenom' => $prenom,
+                           'nom'    => $nom,
+                           'tels'    => [@tels]
+                          };
 
         print "Ajouter une autre entrée ? (o/n) ";
         chomp ($reponse = <>);
     }
-    ecrire_repertoire;
     return;
 }
 
 sub affiche_repertoire {
     foreach my $personne (@repertoire) {     # parcours tout le répertoire
         printf ("%-20s %-20s", $personne->{prenom}, $personne->{nom});
-        foreach my $tel (@{$repertoire->{tel}}) {
+        foreach my $tel (@{$personne->{'tels'}}) {
             printf ("%-15s", $tel);
         }
         print "\n";
