@@ -126,7 +126,7 @@ sub modifier_entree {
             $count++;
         }
         print "\n";
-        print "Modifier (P)rénom (N)om (n°)Téléphone (A)jouter tél. (.)Écrire : ";
+        print "Modifier (P)rénom (N)om (n°)Téléphone (A)jouter tél. (S)upprimer tel. (.)Écrire : ";
         chomp ($reponse = <>);
 
         if ("$reponse" eq "p") {
@@ -145,6 +145,15 @@ sub modifier_entree {
             print "Nouveau téléphone : ";
             chomp (my $telPlus = <>);
             push @{$repertoire[$index]{'tels'}}, $telPlus;
+        } elsif ("$reponse" eq "s"){
+            $count = 0;
+            foreach (@{$repertoire[$index]{tels}}){
+                printf "[%u] %-20s", $count, $_;
+                $count++;
+            }
+            print "N° à supprimer : ";
+            chomp (my $choix = <>);
+            splice @{$repertoire[$index]{tels}}, $choix, 1;
         } elsif ("$reponse" eq ".") {
             last;
         }
