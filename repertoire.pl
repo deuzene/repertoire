@@ -126,21 +126,25 @@ sub modifier_entree {
             $count++;
         }
         print "\n";
-        print "Modifier (P)rénom (N)om (n°)Téléphone (.)Écrire : ";
+        print "Modifier (P)rénom (N)om (n°)Téléphone (A)jouter tél. (.)Écrire : ";
         chomp ($reponse = <>);
 
         if ("$reponse" eq "p") {
             print "Nouveau prénom : ";
             chomp (my $nvPrenom = <>);
-            $repertoire[$index]{prenom} = $nvPrenom;
+            $repertoire[$index]{'prenom'} = $nvPrenom;
         } elsif ("$reponse" eq "n") {
             print "Nouveau nom : ";
             chomp (my $nvNom = <>);
-            $repertoire[$index]{nom} = $nvNom;
+            $repertoire[$index]{'nom'} = $nvNom;
         } elsif ($reponse =~ /\d/){
             print "Nouveau téléphone : ";
             chomp (my $nvTel = <>);
-            $repertoire[$index]{tels}[$reponse] = $nvTel;
+            $repertoire[$index]{'tels'}[$reponse] = $nvTel;
+        } elsif ("$reponse" eq "a"){
+            print "Nouveau téléphone : ";
+            chomp (my $telPlus = <>);
+            push @{$repertoire[$index]{'tels'}}, $telPlus;
         } elsif ("$reponse" eq ".") {
             last;
         }
