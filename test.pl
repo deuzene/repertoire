@@ -15,7 +15,7 @@ sub ouvrir_repertoire {
 
         while (<$REP>) {
             chomp;
-            my ($nom, $prenom, @tels) = split(/#/);
+            my ($prenom, $nom, @tels) = split(/#/);
             push (@repertoire,{ 'prenom' => $prenom,
                                 'nom'    => $nom,
                                 'tels'   => [@tels]
@@ -89,6 +89,43 @@ sub affiche_repertoire {
     return;
 }
 
+sub modifier_entree {
+    my $index = shift;
+
+    while (1) {
+        my $reponse;
+
+        printf "%-20s %-20s",
+                $repertoire[$index]{prenom}, $repertoire[$index]{nom};
+        my $count = 0;
+        foreach (@{$repertoire[$index]{tels}}){
+            printf "[%u] %-20s", $count, $_;
+            $count++;
+        }
+        print "\n";
+        print "Modifier (P)rénom (N)om (n°)Téléphone (.)Écrire : ";
+        chomp ($reponse = <>);
+
+        if ("$reponse" eq "p") {
+            print "Nouveau prénom : ";
+            chomp (my $nvPrenom = <>);
+            $repertoire[$index]{prenom} = $nvPrenom;
+        } elsif ("$reponse" eq "n") {
+            print "Nouveau nom : ";
+            chomp (my $nvNom = <>);
+            $repertoire[$index]{nom} = $nvNom;
+        } elsif ($reponse =~ /\d/){
+            print "Nouveau téléphone : ";
+            chomp (my $nvTel = <>);
+            $repertoire[$index]{tels}[$reponse] = $nvTel;
+        } elsif ("$reponse" eq ".") {
+            last;
+        }
+    }
+    ecrire_repertoire;
+    return;
+}
+
 sub affiche_entrees {
     my @liste = @_;
     my $reponse;
@@ -147,3 +184,6 @@ sub rechercher {
 
 ouvrir_repertoire;
 rechercher;
+
+
+

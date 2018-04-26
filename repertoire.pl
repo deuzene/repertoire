@@ -39,7 +39,7 @@ sub ouvrir_repertoire {
 
         while (<$REP>) {
             chomp;
-            my ($nom, $prenom, @tels) = split(/#/);
+            my ($prenom, $nom, @tels) = split(/#/);
             push (@repertoire,{ 'prenom' => $prenom,
                                 'nom'    => $nom,
                                 'tels'   => [@tels]
@@ -113,12 +113,20 @@ sub affiche_repertoire {
 }
 
 sub modifier_entree {
+    my $index = shift;
+
     while (1) {
-        my $index = @_;
         my $reponse;
 
-        printf ("%-20s %-20s %-15s\n", $repertoire[$index]{prenom}, $repertoire[$index]{nom}, $repertoire[$index]{tel});
-        print "Modifier (P)rénom (N)om (T)éléphone (.)Écrire : ";
+        printf "%-20s %-20s",
+                $repertoire[$index]{prenom}, $repertoire[$index]{nom};
+        my $count = 0;
+        foreach (@{$repertoire[$index]{tels}}){
+            printf "[%u] %-20s", $count, $_;
+            $count++;
+        }
+        print "\n";
+        print "Modifier (P)rénom (N)om (n°)Téléphone (.)Écrire : ";
         chomp ($reponse = <>);
 
         if ("$reponse" eq "p") {
@@ -129,10 +137,10 @@ sub modifier_entree {
             print "Nouveau nom : ";
             chomp (my $nvNom = <>);
             $repertoire[$index]{nom} = $nvNom;
-        } elsif ("$reponse" eq "t") {
+        } elsif ($reponse =~ /\d/){
             print "Nouveau téléphone : ";
             chomp (my $nvTel = <>);
-            $repertoire[$index]{tel} = $nvTel;
+            $repertoire[$index]{tels}[$reponse] = $nvTel;
         } elsif ("$reponse" eq ".") {
             last;
         }
@@ -141,11 +149,13 @@ sub modifier_entree {
     return;
 }
 
+
 sub supprimer_entree {
     my $index = shift;
     my $reponse;
 
-    printf ("Êtes-vous sur de vouloir supprimer : %s %s\n", $repertoire[$index]{prenom}, $repertoire[$index]{nom});
+    printf "Êtes-vous sur de vouloir supprimer : %s %s\n",
+            $repertoire[$index]{prenom}, $repertoire[$index]{nom};
     print "o/n : ";
     chomp ($reponse = <>);
 
@@ -155,19 +165,31 @@ sub supprimer_entree {
     return;
 }
 
-
 sub affiche_entrees {
     my @liste = @_;
     my $reponse;
 
-    foreach (@liste) {
-        printf ("[%5s]: %-20s %-20s %-15s\n", $_,  $repertoire[$_]{prenom}, $repertoire[$_]{nom}, $repertoire[$_]{tel});
+    foreach my $i (@liste) {
+        my $aff = sprintf "[%5s]: %-20s %-20s",
+                  $i,  $repertoire[$i]{'prenom'}, $repertoire[$i]{'nom'};
+
+        foreach my $j (@{$repertoire[$i]{'tels'}}){
+            $aff .= sprintf "%-15s", $j;
+        }
+        say $aff;
     }
 
     print "Choix : ";
     chomp (my $index = <>);
 
-    printf ("%-20s %-20s %-15s\n", $repertoire[$index]{prenom}, $repertoire[$index]{nom}, $repertoire[$index]{tel});
+    my $aff = sprintf "[%5s]: %-20s %-20s",
+              $index,  $repertoire[$index]{'prenom'}, $repertoire[$index]{'nom'};
+
+    foreach my $j (@{$repertoire[$index]{'tels'}}){
+        $aff .= sprintf "%-15s", $j;
+    }
+
+    say $aff;
     print "(M)odifier (S)upprimer (.)retour : ";
     chomp ($reponse = <>);
 
@@ -176,6 +198,7 @@ sub affiche_entrees {
     supprimer_entree ($index) if ("$reponse" eq "s");
     return;
 }
+
 
 sub rechercher {
     my $motif;              # motif à rechercher
