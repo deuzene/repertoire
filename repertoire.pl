@@ -24,34 +24,47 @@ while (1){
     print "Choix : ";
     my $reponse;
     chomp ($reponse = <>);
-    ajouter_entree()        if ($reponse eq "a");
-    rechercher()            if ($reponse eq "r");
-    affiche_repertoire()    if ($reponse eq "v");
-    exit                    if ($reponse eq "..");
+    ajouter_entree        if ($reponse eq "a");
+    rechercher            if ($reponse eq "r");
+    affiche_repertoire    if ($reponse eq "v");
+    exit                  if ($reponse eq "..");
 }
 
 ecrire_repertoire();
 # ### fin programme principal #################################################
 
+# #############################################################################
+# sub: ouvrir_repertoire
+# arg:
+# usage: ouvrir_repertoire
+# invoque: ajouter_entree si le fichier n'existe pas
+# ouvre le fichier $repertoire s'il existe et rempli @repertoire avec les données
+# #############################################################################
 sub ouvrir_repertoire {
-    if (-e $repertoire) {
+    if ( -e $repertoire ) {
         open my $REP, "<", "$repertoire" or die "Impossible de lire $repertoire : $!";
 
         while (<$REP>) {
             chomp;
             my ($prenom, $nom, @tels) = split(/#/);
-            push (@repertoire,{ 'prenom' => $prenom,
+            push @repertoire,{ 'prenom' => $prenom,
                                 'nom'    => $nom,
                                 'tels'   => [@tels]
-                              });
+                             };
         }
         close $REP;
     } else {
-        ajouter_entree(); # si le fichier n'existe pas creer repertoire
+        ajouter_entree; # si le fichier n'existe pas creer repertoire
     }
     return;
 }
 
+# #############################################################################
+# sub: ecrire_repertoire
+# arg:
+# usage: ecrire_repertoire
+# parcours @repertoire et écrit le fichier repertoire
+# #############################################################################
 sub ecrire_repertoire {
   open my $REP, ">", "$repertoire"
     or die "Impossible d'ouvrir $repertoire en écriture : $!";
@@ -59,7 +72,8 @@ sub ecrire_repertoire {
   foreach my $personne (@repertoire) {
     print $REP $personne->{'prenom'} . "#"    # on sépare les champs
              . $personne->{'nom'}    . "#";   # avec des dièses
-    foreach my $tel (@{$personne->{'tels'}}) {
+
+    foreach my $tel (@{$personne->{'tels'}}) { # parcours du tableau tels
       print $REP $tel . "#";
     }
     print $REP "\n";
@@ -68,19 +82,26 @@ sub ecrire_repertoire {
   return;
 }
 
+# #############################################################################
+# sub: ajouter_entree
+# arg:
+# usage: ajouter_entree
+# invoque: ecrire_repertoire
+# ajoute des entrées au tableau @repertoire
+# #############################################################################
 sub ajouter_entree {
     my $reponse = "o";
     my ($nom, $prenom);
     my $tel="";
     my @tels=();
 
-    while ($reponse eq "o") {
+    while ( $reponse eq "o" ) {
         print "Prenom : ";
         chomp ($prenom = <>);
         print "Nom : ";
         chomp ($nom = <>);
 
-        while ($tel ne ".") {
+        while ( $tel ne "." ) {
             print "Téléphone : ";
             chomp ($tel = <> );
             push (@tels, $tel) unless ($tel eq ".");
@@ -99,11 +120,17 @@ sub ajouter_entree {
     return;
 }
 
+# #############################################################################
+# sub: affiche_repertoire
+# arg:
+# usage: affiche_repertoire
+# parcours et affiche @repertoire dans sa totalité
+# #############################################################################
 sub affiche_repertoire {
-    foreach my $personne (@repertoire) {     # parcours tout le répertoire
+    foreach my $personne ( @repertoire ) {     # parcours tout le répertoire
         printf "%-20s %-20s", $personne->{prenom}, $personne->{nom};
 
-        foreach my $tel (@{$personne->{'tels'}}) {
+        foreach my $tel ( @{$personne->{'tels'}} ) {
             printf "%-15s", $tel;
         }
 
@@ -112,6 +139,13 @@ sub affiche_repertoire {
     return;
 }
 
+# #############################################################################
+# sub: modifier_entree
+# arg: index de l'entrée du tableau @repertoire
+# usage: modifier_entree (index)
+# invoque: ecrire_repertoire
+# permet de mofifier une entrée (modif nom, prénom, tel - ajout/suppression tél.)
+# #############################################################################
 sub modifier_entree {
     my $index = shift;
 
@@ -129,32 +163,32 @@ sub modifier_entree {
         print "Modifier (P)rénom (N)om (n°)Téléphone (A)jouter tél. (S)upprimer tel. (.)Écrire : ";
         chomp ($reponse = <>);
 
-        if ("$reponse" eq "p") {
+        if ( "$reponse" eq "p" ) {
             print "Nouveau prénom : ";
             chomp (my $nvPrenom = <>);
             $repertoire[$index]{'prenom'} = $nvPrenom;
-        } elsif ("$reponse" eq "n") {
+        } elsif ( "$reponse" eq "n" ) {
             print "Nouveau nom : ";
             chomp (my $nvNom = <>);
             $repertoire[$index]{'nom'} = $nvNom;
-        } elsif ($reponse =~ /\d/){
+        } elsif ( $reponse =~ /\d/ ){
             print "Nouveau téléphone : ";
             chomp (my $nvTel = <>);
             $repertoire[$index]{'tels'}[$reponse] = $nvTel;
-        } elsif ("$reponse" eq "a"){
+        } elsif ( "$reponse" eq "a" ){
             print "Nouveau téléphone : ";
             chomp (my $telPlus = <>);
             push @{$repertoire[$index]{'tels'}}, $telPlus;
-        } elsif ("$reponse" eq "s"){
+        } elsif ( "$reponse" eq "s" ){
             $count = 0;
-            foreach (@{$repertoire[$index]{tels}}){
+            foreach ( @{$repertoire[$index]{tels}} ){
                 printf "[%u] %-20s", $count, $_;
                 $count++;
             }
             print "N° à supprimer : ";
             chomp (my $choix = <>);
             splice @{$repertoire[$index]{tels}}, $choix, 1;
-        } elsif ("$reponse" eq ".") {
+        } elsif ( "$reponse" eq "." ) {
             last;
         }
     }
@@ -163,6 +197,13 @@ sub modifier_entree {
 }
 
 
+# #############################################################################
+# sub: supprimer_entree
+# arg: index de l'entrée à supprimer
+# usage: supprimer_entree (index)
+# invoque ecrire_repertoire
+# supprime l'entrée index de @repertoire
+# #############################################################################
 sub supprimer_entree {
     my $index = shift;
     my $reponse;
@@ -178,15 +219,22 @@ sub supprimer_entree {
     return;
 }
 
+# #############################################################################
+# sub: affiche_entrees
+# arg: liste d'entrées à afficher
+# usage: affiche_entrees(@liste)
+# invoque : supprimer_entree, modifier_entree
+# affiche les entrées passées en argument
+# #############################################################################
 sub affiche_entrees {
     my @liste = @_;
     my $reponse;
 
-    foreach my $i (@liste) {
+    foreach my $i ( @liste ) {
         my $aff = sprintf "[%5s]: %-20s %-20s",
                   $i,  $repertoire[$i]{'prenom'}, $repertoire[$i]{'nom'};
 
-        foreach my $j (@{$repertoire[$i]{'tels'}}){
+        foreach my $j ( @{$repertoire[$i]{'tels'}} ){
             $aff .= sprintf "%-15s", $j;
         }
         say $aff;
@@ -198,7 +246,7 @@ sub affiche_entrees {
     my $aff = sprintf "[%5s]: %-20s %-20s",
               $index,  $repertoire[$index]{'prenom'}, $repertoire[$index]{'nom'};
 
-    foreach my $j (@{$repertoire[$index]{'tels'}}){
+    foreach my $j ( @{$repertoire[$index]{'tels'}} ){
         $aff .= sprintf "%-15s", $j;
     }
 
@@ -213,6 +261,12 @@ sub affiche_entrees {
 }
 
 
+# #############################################################################
+# sub: rechercher
+# arg:
+# usage: recherche les entrée correpondant au motif
+# invoque: affiche_entrees
+# #############################################################################
 sub rechercher {
     my $motif;              # motif à rechercher
     my @trouves;            # liste des élément trouvés
@@ -221,7 +275,7 @@ sub rechercher {
     print "Motif : ";
     chomp ($motif = <>);
 
-    foreach my $ligne (@repertoire) {
+    foreach my $ligne ( @repertoire ) {
         while ( my ($clef, $valeur) = each %$ligne ) {
             if ( $valeur =~ /$motif/ ){
                 push (@trouves, $index);
