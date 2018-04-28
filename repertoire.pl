@@ -46,10 +46,11 @@ sub ouvrir_repertoire {
 
         while (<$REP>) {
             chomp;
-            my ($prenom, $nom, @tels) = split(/#/);
+            my ($prenom, $nom, $mail, @tels) = split(/#/);
             push @repertoire,{ 'prenom' => $prenom,
-                                'nom'    => $nom,
-                                'tels'   => [@tels]
+                               'nom'    => $nom,
+                               'mail'   => $mail,
+                               'tels'   => [@tels]
                              };
         }
         close $REP;
@@ -71,7 +72,8 @@ sub ecrire_repertoire {
 
   foreach my $personne (@repertoire) {
     print $REP $personne->{'prenom'} . "#"    # on sépare les champs
-             . $personne->{'nom'}    . "#";   # avec des dièses
+             . $personne->{'mail'}   . "#"    # avec des dièses
+             . $personne->{'nom'}    . "#";
 
     foreach my $tel (@{$personne->{'tels'}}) { # parcours du tableau tels
       print $REP $tel . "#";
@@ -91,15 +93,16 @@ sub ecrire_repertoire {
 # #############################################################################
 sub ajouter_entree {
     my $reponse = "o";
-    my ($nom, $prenom);
     my $tel="";
     my @tels=();
 
     while ( $reponse eq "o" ) {
         print "Prenom : ";
-        chomp ($prenom = <>);
+        chomp (my $prenom = <>);
         print "Nom : ";
-        chomp ($nom = <>);
+        chomp (my $nom = <>);
+        print "email : ";
+        chomp (my $mail = <>);
 
         while ( $tel ne "." ) {
             print "Téléphone : ";
@@ -128,7 +131,8 @@ sub ajouter_entree {
 # #############################################################################
 sub affiche_repertoire {
     foreach my $personne ( @repertoire ) {     # parcours tout le répertoire
-        printf "%-20s %-20s", $personne->{prenom}, $personne->{nom};
+        printf "%-20s %-20s %-30s",
+                $personne->{'prenom'}, $personne->{'nom'}, $personne->{'mail'};
 
         foreach my $tel ( @{$personne->{'tels'}} ) {
             printf "%-15s", $tel;
@@ -152,15 +156,17 @@ sub modifier_entree {
     while (1) {
         my $reponse;
 
-        printf "%-20s %-20s",
-                $repertoire[$index]{prenom}, $repertoire[$index]{nom};
+        printf "%-20s %-20s %-30s",
+                $repertoire[$index]{'prenom'},
+                $repertoire[$index]{'nom'},
+                $repertoire[$index]{'mail'};
         my $count = 0;
         foreach (@{$repertoire[$index]{tels}}){
             printf "[%u] %-20s", $count, $_;
             $count++;
         }
         print "\n";
-        print "Modifier (P)rénom (N)om (n°)Téléphone (A)jouter tél. (S)upprimer tel. (.)Écrire : ";
+        print "Modifier (P)rénom (N)om (M)ail (n°)Téléphone (A)jouter tél. (S)upprimer tel. (.)Écrire : ";
         chomp ($reponse = <>);
 
         if ( "$reponse" eq "p" ) {
@@ -171,6 +177,10 @@ sub modifier_entree {
             print "Nouveau nom : ";
             chomp (my $nvNom = <>);
             $repertoire[$index]{'nom'} = $nvNom;
+        } elsif ( "$reponse" eq "m" ){
+            print "Nouvel email";
+            chomp (my $nvMail);
+            $repertoire[$index]{'mail'} = $nvMail;
         } elsif ( $reponse =~ /\d/ ){
             print "Nouveau téléphone : ";
             chomp (my $nvTel = <>);
@@ -231,8 +241,11 @@ sub affiche_entrees {
     my $reponse;
 
     foreach my $i ( @liste ) {
-        my $aff = sprintf "[%5s]: %-20s %-20s",
-                  $i,  $repertoire[$i]{'prenom'}, $repertoire[$i]{'nom'};
+        my $aff = sprintf "[%5s]: %-20s %-20s %-30s",
+                          $i,
+                          $repertoire[$i]{'prenom'},
+                          $repertoire[$i]{'nom'},
+                          $repertoire[$i]{'mail'};
 
         foreach my $j ( @{$repertoire[$i]{'tels'}} ){
             $aff .= sprintf "%-15s", $j;
@@ -243,8 +256,11 @@ sub affiche_entrees {
     print "Choix : ";
     chomp (my $index = <>);
 
-    my $aff = sprintf "[%5s]: %-20s %-20s",
-              $index,  $repertoire[$index]{'prenom'}, $repertoire[$index]{'nom'};
+    my $aff = sprintf "[%5s]: %-20s %-30s",
+                      $index,
+                      $repertoire[$index]{'prenom'},
+                      $repertoire[$index]{'nom'},
+                      $repertoire[$index]{'mail'};
 
     foreach my $j ( @{$repertoire[$index]{'tels'}} ){
         $aff .= sprintf "%-15s", $j;
