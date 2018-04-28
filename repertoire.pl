@@ -254,9 +254,11 @@ sub affiche_entrees {
     }
 
     print "Choix : ";
-    chomp (my $index = <>);
+    chomp ($index = <>);
+    return if ( "$index" eq "." );
+    return if ( "$index" !~ /\d+/ );
 
-    my $aff = sprintf "[%5s]: %-20s %-30s",
+    my $aff = sprintf "[%5s]: %-20s %-20s %-30s",
                       $index,
                       $repertoire[$index]{'prenom'},
                       $repertoire[$index]{'nom'},
