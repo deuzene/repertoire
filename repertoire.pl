@@ -7,30 +7,29 @@ use Data::Dumper;
 use feature ":5.24";
 
 my @repertoire ;                # le repertoire (array de hash)
-my $repertoire = "repertoire";  # fichier
+my $fichier = "repertoire";  # fichier
 
 sub affiche_repertoire;     sub affiche_entrees;    sub ajouter_entree;
 sub ecrire_repertoire;      sub modifier_entree;    sub ouvrir_repertoire;
 sub rechercher;             sub supprimer_entree;
 
-#TODO: supprimer : valider l'entrée
-#TODO: ajouter mail, adresse
-#TODO: plusieurs n° de tél
+#TODO: ajouter adresse
 # ### programme principal #####################################################
-ouvrir_repertoire();
+ouvrir_repertoire($fichier);
 
 while (1){
     print "(A)jouter une entrée (R)echercher (V)oir le répertoire (..)quitter\n";
     print "Choix : ";
     my $reponse;
     chomp ($reponse = <>);
+    $reponse = lc($reponse);
     ajouter_entree        if ($reponse eq "a");
     rechercher            if ($reponse eq "r");
     affiche_repertoire    if ($reponse eq "v");
     exit                  if ($reponse eq "..");
 }
 
-ecrire_repertoire();
+ecrire_repertoire($fichier);
 # ### fin programme principal #################################################
 
 # #############################################################################
@@ -41,8 +40,9 @@ ecrire_repertoire();
 # ouvre le fichier $repertoire s'il existe et rempli @repertoire avec les données
 # #############################################################################
 sub ouvrir_repertoire {
-    if ( -e $repertoire ) {
-        open my $REP, "<", "$repertoire" or die "Impossible de lire $repertoire : $!";
+    my $fichier = shift;
+    if ( -e $fichier ) {
+        open my $REP, "<", "$fichier" or die "Impossible de lire $fichier : $!";
 
         while (<$REP>) {
             chomp;
@@ -67,21 +67,22 @@ sub ouvrir_repertoire {
 # parcours @repertoire et écrit le fichier repertoire
 # #############################################################################
 sub ecrire_repertoire {
-  open my $REP, ">", "$repertoire"
-    or die "Impossible d'ouvrir $repertoire en écriture : $!";
+    my $fichier = shift;
+    open my $REP, ">", "$fichier"
+        or die "Impossible d'ouvrir $fichier en écriture : $!";
 
-  foreach my $personne (@repertoire) {
-    print $REP $personne->{'prenom'} . "#"    # on sépare les champs
-             . $personne->{'mail'}   . "#"    # avec des dièses
-             . $personne->{'nom'}    . "#";
+    foreach my $personne (@repertoire) {
+        print $REP $personne->{'prenom'} . "#"    # on sépare les champs
+                 . $personne->{'mail'}   . "#"    # avec des dièses
+                 . $personne->{'nom'}    . "#";
 
-    foreach my $tel (@{$personne->{'tels'}}) { # parcours du tableau tels
-      print $REP $tel . "#";
+        foreach my $tel (@{$personne->{'tels'}}) { # parcours du tableau tels
+            print $REP $tel . "#";
+        }
+        print $REP "\n";
     }
-    print $REP "\n";
-  }
-  close $REP;
-  return;
+    close $REP;
+    return;
 }
 
 # #############################################################################
@@ -107,7 +108,7 @@ sub ajouter_entree {
         while ( $tel ne "." ) {
             print "Téléphone : ";
             chomp ($tel = <> );
-            push (@tels, $tel) unless ($tel eq ".");
+            push @tels, $tel unless $tel eq ".";
         }
 
         push @repertoire, {
@@ -118,6 +119,7 @@ sub ajouter_entree {
 
         print "Ajouter une autre entrée ? (o/n) ";
         chomp ($reponse = <>);
+        $reponse = lc($reponse);
     }
     ecrire_repertoire;
     return;
@@ -168,6 +170,7 @@ sub modifier_entree {
         print "\n";
         print "Modifier (P)rénom (N)om (M)ail (n°)Téléphone (A)jouter tél. (S)upprimer tel. (.)Écrire : ";
         chomp ($reponse = <>);
+        $reponse = lc($reponse);
 
         if ( "$reponse" eq "p" ) {
             print "Nouveau prénom : ";
@@ -222,6 +225,7 @@ sub supprimer_entree {
             $repertoire[$index]{prenom}, $repertoire[$index]{nom};
     print "o/n : ";
     chomp ($reponse = <>);
+    $reponse = lc($reponse);
 
     splice (@repertoire, $index, 1) if ("$reponse" eq "o");
 
@@ -254,7 +258,7 @@ sub affiche_entrees {
     }
 
     print "Choix : ";
-    chomp ($index = <>);
+    chomp (my $index = <>);
     return if ( "$index" eq "." );
     return if ( "$index" !~ /\d+/ );
 
@@ -271,6 +275,7 @@ sub affiche_entrees {
     say $aff;
     print "(M)odifier (S)upprimer (.)retour : ";
     chomp ($reponse = <>);
+    $reponse = lc($reponse);
 
     return                    if ("$reponse" eq ".");
     modifier_entree ($index)  if ("$reponse" eq "m");
@@ -296,7 +301,7 @@ sub rechercher {
     foreach my $ligne ( @repertoire ) {
         while ( my ($clef, $valeur) = each %$ligne ) {
             if ( $valeur =~ /$motif/ ){
-                push (@trouves, $index);
+                push @trouves, $index;
                 next;
             }
         }
