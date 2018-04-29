@@ -6,18 +6,22 @@ use Smart::Comments;
 use Data::Dumper;
 use feature ":5.24";
 
+use Storable;
+
 my @repertoire ;                # le repertoire (array de hash)
-my $repertoire = "repertoire";  # fichier
+my $fichier = "repertoire";     # fichier de sauvegarde
 
 sub affiche_repertoire;     sub affiche_entrees;    sub ajouter_entree;
 sub ecrire_repertoire;      sub modifier_entree;    sub ouvrir_repertoire;
 sub rechercher;             sub supprimer_entree;
 
-#TODO: supprimer : valider l'entrée
-#TODO: ajouter mail, adresse
-#TODO: plusieurs n° de tél
+#TODO: adresse
+# TODO: formatage
+# TODO: Carp
+# TODO: afficher résumé/complet
+# TODO: inverser mail et tel. dans l'affichage
 # ### programme principal #####################################################
-ouvrir_repertoire();
+ouvrir_repertoire;
 
 while (1){
     print "(A)jouter une entrée (R)echercher (V)oir le répertoire (..)quitter\n";
@@ -30,7 +34,7 @@ while (1){
     exit                  if ($reponse eq "..");
 }
 
-ecrire_repertoire();
+ecrire_repertoire;
 # ### fin programme principal #################################################
 
 # #############################################################################
@@ -41,19 +45,9 @@ ecrire_repertoire();
 # ouvre le fichier $repertoire s'il existe et rempli @repertoire avec les données
 # #############################################################################
 sub ouvrir_repertoire {
-    if ( -e $repertoire ) {
-        open my $REP, "<", "$repertoire" or die "Impossible de lire $repertoire : $!";
-
-        while (<$REP>) {
-            chomp;
-            my ($prenom, $nom, $mail, @tels) = split(/#/);
-            push @repertoire,{ 'prenom' => $prenom,
-                               'nom'    => $nom,
-                               'mail'   => $mail,
-                               'tels'   => [@tels]
-                             };
-        }
-        close $REP;
+    if ( -e $fichier ) {
+        my $ref = retrieve "$fichier";
+        @repertoire = @$ref;
     } else {
         ajouter_entree; # si le fichier n'existe pas creer repertoire
     }
@@ -67,21 +61,8 @@ sub ouvrir_repertoire {
 # parcours @repertoire et écrit le fichier repertoire
 # #############################################################################
 sub ecrire_repertoire {
-  open my $REP, ">", "$repertoire"
-    or die "Impossible d'ouvrir $repertoire en écriture : $!";
-
-  foreach my $personne (@repertoire) {
-    print $REP $personne->{'prenom'} . "#"    # on sépare les champs
-             . $personne->{'mail'}   . "#"    # avec des dièses
-             . $personne->{'nom'}    . "#";
-
-    foreach my $tel (@{$personne->{'tels'}}) { # parcours du tableau tels
-      print $REP $tel . "#";
-    }
-    print $REP "\n";
-  }
-  close $REP;
-  return;
+    store \@repertoire, "$fichier";
+    return;
 }
 
 # #############################################################################
@@ -104,16 +85,18 @@ sub ajouter_entree {
         print "email : ";
         chomp (my $mail = <>);
 
-        while ( $tel ne "." ) {
+        $tel = ".";
+        while ( $tel ne "" ) {
             print "Téléphone : ";
             chomp ($tel = <> );
-            push (@tels, $tel) unless ($tel eq ".");
+            push (@tels, $tel) unless ($tel eq "");
         }
 
         push @repertoire, {
                            'prenom' => $prenom,
                            'nom'    => $nom,
-                           'tels'    => [@tels]
+                           'mail'   => $mail,
+                           'tels'   => [@tels]
                           };
 
         print "Ajouter une autre entrée ? (o/n) ";
@@ -254,7 +237,7 @@ sub affiche_entrees {
     }
 
     print "Choix : ";
-    chomp ($index = <>);
+    chomp (my $index = <>);
     return if ( "$index" eq "." );
     return if ( "$index" !~ /\d+/ );
 
