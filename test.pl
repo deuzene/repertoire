@@ -6,24 +6,19 @@ use Smart::Comments;
 use Data::Dumper;
 use feature ":5.24";
 
-
-
-use Storable;
-my $ref = retrieve('rep.st');
-my @repertoire = @$ref;
-
-sub affiche_repertoire {
-    foreach my $personne ( @repertoire ) {     # parcours tout le répertoire
-        printf "%-20s %-20s %-30s",
-                $personne->{'prenom'}, $personne->{'nom'}, $personne->{'mail'};
-
-        foreach my $tel ( @{$personne->{'tels'}} ) {
-            printf "%-15s", $tel;
-        }
-
-        print "\n";
-    }
-    return;
+sub is_def {
+    my $var = shift;
+    $var = " " if ! defined $var ;
+    return $var;
 }
 
-affiche_repertoire;
+sub format_entree {
+my ($id, $prenom, $nom, $mail, @tels) = @_ ;
+
+format STDOUT=
+@>>>@@<<<<<<<<<<<<<<<<<<<@<<<<<<<<<<<<<<<<<<<@<<<<<<<<<<<<<<<<<<<<<<<<<<<<<@>>>>>>>>>>>>>>>@>>>>>>>>>>>>>>>@>>>>>>>>>>>>>>>@>>>>>>>>>>>>>>>
+&is_def($id), " ", &is_def($prenom), &is_def($nom), &is_def($mail), &is_def($tels[0]), &is_def($tels[1]), &is_def($tels[2]), &is_def($tels[3])
+.
+
+
+write STDOUT ;
