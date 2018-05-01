@@ -16,13 +16,13 @@ sub affiche_repertoire ;     sub aff_liste_entrees ;    sub ajouter_entree ;
 sub ecrire_repertoire ;      sub modifier_entree ;      sub ouvrir_repertoire ;
 sub rechercher ;             sub supprimer_entree ;     sub is_def;
 
-#TODO: adresse
+#TODO: trier le repertoire par ordre alpha. de prénom
 # ### programme principal #####################################################
 ouvrir_repertoire ;
 
 while (1){
     print "(A)jouter une entrée (R)echercher (V)oir le répertoire (.)quitter\n" ;
-    print "Choix : \n" ;
+    print "Choix : " ;
     chomp (my $reponse = <>) ;
     ajouter_entree        if ($reponse eq "a") ;
     rechercher            if ($reponse eq "r") ;
@@ -90,7 +90,7 @@ sub ecrire_repertoire {
 # #############################################################################
 sub ajouter_entree {
     my $reponse = "o" ;
-    my $tel="" ;
+    my $tel = "." ;
     my @tels=() ;
 
     while ( $reponse eq "o" ) {
@@ -101,7 +101,6 @@ sub ajouter_entree {
         print "email : " ;
         chomp (my $mail = <>) ;
 
-        $tel = "." ;
         while ( $tel ne "" ) {
             print "Téléphone : " ;
             chomp ($tel = <> ) ;
@@ -173,22 +172,27 @@ sub modifier_entree {
             print "Nouveau prénom : " ;
             chomp (my $nvPrenom = <>) ;
             $repertoire[$index]{'prenom'} = $nvPrenom ;
+
         } elsif ( "$reponse" eq "n" ) {
             print "Nouveau nom : " ;
             chomp (my $nvNom = <>) ;
             $repertoire[$index]{'nom'} = $nvNom ;
+
         } elsif ( "$reponse" eq "m" ){
             print "Nouvel email" ;
             chomp (my $nvMail) ;
             $repertoire[$index]{'mail'} = $nvMail ;
+
         } elsif ( $reponse =~ /\d/ ){
             print "Nouveau téléphone : " ;
             chomp (my $nvTel = <>) ;
             $repertoire[$index]{'tels'}[$reponse] = $nvTel ;
+
         } elsif ( "$reponse" eq "a" ){
             print "Nouveau téléphone : " ;
             chomp (my $telPlus = <>) ;
             push @{$repertoire[$index]{'tels'}}, $telPlus ;
+
         } elsif ( "$reponse" eq "s" ){
             $count = 0 ;
             foreach ( @{$repertoire[$index]{tels}} ){
@@ -199,6 +203,7 @@ sub modifier_entree {
             print "N° à supprimer : " ;
             chomp (my $choix = <>) ;
             splice @{$repertoire[$index]{tels}}, $choix, 1 ;
+
         } elsif ( "$reponse" eq "." ) {
             last ;
         }
