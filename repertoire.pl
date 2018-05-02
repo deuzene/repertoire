@@ -45,13 +45,6 @@ sub is_def {
     return $var;
 }
 
-my($id, $prenom, $nom, $mail, @tels) ;
-format STDOUT=
-@>>>@@<<<<<<<<<<<<<<<<<<<@<<<<<<<<<<<<<<<<<<<@<<<<<<<<<<<<<<<<<<<<<<<<<<<<<@>>>>>>>>>>>>>>>@>>>>>>>>>>>>>>>@>>>>>>>>>>>>>>>@>>>>>>>>>>>>>>>
-&is_def($id), " ", &is_def($prenom), &is_def($nom), &is_def($mail), &is_def($tels[0]), &is_def($tels[1]), &is_def($tels[2]), &is_def($tels[3])
-.
-
-
 # #############################################################################
 # sub: ouvrir_repertoire
 # ouvre le fichier $repertoire s'il existe et rempli @repertoire avec les
@@ -90,16 +83,14 @@ sub ecrire_repertoire {
 # #############################################################################
 sub ajouter_entree {
     my $reponse = "o" ;
-    my $tel = "." ;
-    my @tels=() ;
+    my ($tel, $mail, $adresse) = qw/. . ./ ;
+    my (@tels, @mail, @adresse) = () ;
 
     while ( $reponse eq "o" ) {
         print "Prenom : " ;
         chomp (my $prenom = <>) ;
         print "Nom : " ;
         chomp (my $nom = <>) ;
-        print "email : " ;
-        chomp (my $mail = <>) ;
 
         while ( $tel ne "" ) {
             print "Téléphone : " ;
@@ -107,11 +98,24 @@ sub ajouter_entree {
             push (@tels, $tel) unless ($tel eq "") ;
         }
 
+        while ( $mail ne "" ) {
+            print "email : " ;
+            chomp ($mail = <> ) ;
+            push (@mail, $mail) unless ($mail eq "") ;
+        }
+
+        while ( $adresse ne "" ) {
+            print "Adresse : " ;
+            chomp ($adresse = <> ) ;
+            push (@adresse, $adresse) unless ($adresse eq "") ;
+        }
+
         push @repertoire, {
-                           'prenom' => $prenom,
-                           'nom'    => $nom,
-                           'mail'   => $mail,
-                           'tels'   => [@tels]
+                           'prenom'  => $prenom,
+                           'nom'     => $nom,
+                           'mail'    => [ @mail ],
+                           'tels'    => [ @tels ],
+                           'adresse' => [ @adresse ]
                           } ;
 
         print "Ajouter une autre entrée ? (o/n) " ;
@@ -122,6 +126,38 @@ sub ajouter_entree {
     return ;
 }
 
+# ############################################################################
+# sub    : format_entree
+# desc.  : affiche suivant le format les arg. passés
+# usage  : format-entree(id,prenom,nom,mail,adresse,tels)
+# arg.   : $id, $prenom, $nom, \@mail, \@adresse, \@tels
+# retour :
+# ############################################################################
+sub format_entree {
+    my ($id, $prenom, $nom, $mail, $adresse, $tels) = @_ ;
+    my @info = (@$tels, @$mail) ;
+format STDOUT=
+@>>>@@<<<<<<<<<<<<<<<<<<<@<<<<<<<<<<<<<<<<<<<
+&is_def($id), " ", &is_def($prenom), &is_def($nom)
+     @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+     &is_def($info[0]),               &is_def($adresse->[0])
+     @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+     &is_def($info[1]),               &is_def($adresse->[1])
+     @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+     &is_def($info[2]),               &is_def($adresse->[2])
+     @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+     &is_def($info[3]),               &is_def($adresse->[3])
+     @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+     &is_def($info[4])
+     @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+     &is_def($info[5])
+     @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+     &is_def($info[6])
+.
+
+write STDOUT ;
+}
+
 # #############################################################################
 # sub: affiche_repertoire
 # parcours et affiche @repertoire dans sa totalité
@@ -130,12 +166,13 @@ sub ajouter_entree {
 # #############################################################################
 sub affiche_repertoire {
     foreach my $personne ( @repertoire ) {     # parcours tout le répertoire
-        $prenom = $personne->{'prenom'} ;
-        $nom    = $personne->{'nom'} ;
-        $mail   = $personne->{'mail'} ;
-        @tels   = @{$personne->{'tels'}} ;
+        my $prenom  = $personne->{'prenom'} ;
+        my $nom     = $personne->{'nom'} ;
+        my @tels    = @{$personne->{'tels'}} ;
+        my @mail    = @{$personne->{'mail'}} ;
+        my @adresse = @{$personne->{'adresse'}} ;
 
-        write
+        format_entree( undef, $prenom, $nom, \@mail, \@adresse, \@tels ) ;
     }
     return ;
 }
@@ -153,48 +190,102 @@ sub modifier_entree {
     while (1) {
         my $reponse ;
 
-        printf "%-18s %-18s %-30s",
-                $repertoire[$index]{'prenom'},
-                $repertoire[$index]{'nom'},
-                $repertoire[$index]{'mail'} ;
-        my $count = 0 ;
-        foreach (@{$repertoire[$index]{tels}}){
-            printf "[%u] %-20s", $count, $_ ;
-            $count++ ;
-        }
-        print "\n" ;
-        print "Modifier (P)rénom (N)om (M)ail (n°)Téléphone "
-            . "(A)jouter tél. (S)upprimer tel. (.)Écrire : " ;
+        my $prenom  = $repertoire[$index]{'prenom'},
+        my $nom     = $repertoire[$index]{'nom'},
+        my @mail    = @{$repertoire[$index]{'mail'}} ;
+        my @tels    = @{$repertoire[$index]{'tels'}} ;
+        my @adresse = @{$repertoire[$index]{'adresse'}} ;
+
+        format_entree( undef, $prenom,$nom, \@mail, \@adresse, \@tels ) ;
+
+        print "Modifier (P)rénom (N)om (M)ail (T)éléphone (A)dresse (.)Écrire : " ;
         chomp ($reponse = <>) ;
         $reponse = lc $reponse;
 
-        if ( "$reponse" eq "p" ) {
+        if ( "$reponse" eq "p" ) {                        # modif. prénom
             print "Nouveau prénom : " ;
             chomp (my $nvPrenom = <>) ;
             $repertoire[$index]{'prenom'} = $nvPrenom ;
 
-        } elsif ( "$reponse" eq "n" ) {
+        } elsif ( "$reponse" eq "n" ) {                   # modif. nom
             print "Nouveau nom : " ;
             chomp (my $nvNom = <>) ;
             $repertoire[$index]{'nom'} = $nvNom ;
 
-        } elsif ( "$reponse" eq "m" ){
-            print "Nouvel email" ;
-            chomp (my $nvMail) ;
-            $repertoire[$index]{'mail'} = $nvMail ;
+        } elsif ( "$reponse" eq "m" ){                    # modif. mail
+            my $count = 0 ;
 
-        } elsif ( $reponse =~ /\d/ ){
-            print "Nouveau téléphone : " ;
-            chomp (my $nvTel = <>) ;
-            $repertoire[$index]{'tels'}[$reponse] = $nvTel ;
+            foreach ( @{$repertoire[$index]{'mail'}} ) {
+                printf "[%u] %-25s" , $count , $_ ;
+                $count++ ;
+            }
 
-        } elsif ( "$reponse" eq "a" ){
-            print "Nouveau téléphone : " ;
-            chomp (my $telPlus = <>) ;
-            push @{$repertoire[$index]{'tels'}}, $telPlus ;
+            print "(n°)modif (A)jouter \n" ;
+            print "Choix : " ;
+            chomp (my $choix = <>) ;
+            $choix = lc $choix ;
+
+            if ( "$choix" eq "a" ) {
+                print "Nouvel email : " ;
+                chomp ( my $nvMail = <> ) ;
+                push @{$repertoire[$index]{'mail'}} , $nvMail ;
+
+            } elsif ( $choix =~ /\d+/ ) {
+                print "Nouvel email : " ;
+                chomp ( my $nvMail = <> ) ;
+                $repertoire[$index]{'mail'}[$choix] = $nvMail ;
+            }
+
+        } elsif ( "$reponse" eq "t" ){                    # modif. téléphone
+            my $count = 0 ;
+
+            foreach ( @{$repertoire[$index]{'tels'}} ) {
+                printf "[%u] %-25s" , $count , $_ ;
+                $count++ ;
+            }
+
+            print "(n°)modif (A)jouter \n" ;
+            print "Choix : " ;
+            chomp (my $choix = <>) ;
+            $choix = lc $choix ;
+
+            if ( "$choix" eq "a" ) {
+                print "Nouveau téléphone : " ;
+                chomp ( my $nvTel = <> ) ;
+                push @{$repertoire[$index]{'tels'}} , $nvTel ;
+
+            } elsif ( $choix =~ /\d+/ ) {
+                print "Nouveau téléphone : " ;
+                chomp ( my $nvTel = <> ) ;
+                $repertoire[$index]{'tels'}[$choix] = $nvTel ;
+            }
+
+        } elsif ( "$reponse" eq "a" ){                    # modif. adresse
+            my $count = 0 ;
+
+            foreach ( @{$repertoire[$index]{'adresse'}} ) {
+                printf "[%u] %-25s" , $count , $_ ;
+                $count++ ;
+            }
+
+            print "(n°)modif (A)jouter \n" ;
+            print "Choix : " ;
+            chomp (my $choix = <>) ;
+            $choix = lc $choix ;
+
+            if ( "$choix" eq "a" ) {
+                print "Nouvelle adresse : " ;
+                chomp ( my $nvAdresse = <> ) ;
+                push @{$repertoire[$index]{'adresse'}} , $nvAdresse ;
+
+            } elsif ( $choix =~ /\d+/ ) {
+                print "Nouvelle adresse : " ;
+                chomp ( my $nvAdresse = <> ) ;
+                $repertoire[$index]{'adresse'}[$choix] = $nvAdresse ;
+            }
 
         } elsif ( "$reponse" eq "s" ){
-            $count = 0 ;
+            my $count = 0 ;
             foreach ( @{$repertoire[$index]{tels}} ){
                 printf "[%u] %-20s", $count, $_ ;
                 $count++ ;
@@ -247,13 +338,14 @@ sub aff_liste_entrees {
     my $reponse ;
 
     foreach my $i ( @liste ) {
-        $id     = $i ;
-        $prenom = $repertoire[$i]{'prenom'} ;
-        $nom    = $repertoire[$i]{'nom'} ;
-        $mail   = $repertoire[$i]{'mail'} ;
-        @tels   = @{$repertoire[$i]{'tels'}} ;
+        my $id      = $i ;
+        my $prenom  = $repertoire[$i]{'prenom'} ;
+        my $nom     = $repertoire[$i]{'nom'} ;
+        my @tels    = @{$repertoire[$i]{'tels'}} ;
+        my @mail    = @{$repertoire[$i]{'mail'}} ;
+        my @adresse = @{$repertoire[$i]{'adresse'}} ;
 
-        write
+        format_entree( $id, $prenom, $nom, \@mail, \@adresse, \@tels ) ;
     }
 
     print "Choix : " ;
@@ -261,13 +353,14 @@ sub aff_liste_entrees {
     return if ( "$index" eq "." ) ;
     return if ( "$index" !~ /\d+/ ) ;
 
-    $id     = $index ;
-    $prenom = $repertoire[$index]{'prenom'} ;
-    $nom    = $repertoire[$index]{'nom'} ;
-    $mail   = $repertoire[$index]{'mail'} ;
-    @tels   = @{$repertoire[$index]{'tels'}} ;
+    my $id      = $index ;
+    my $prenom  = $repertoire[$index]{'prenom'} ;
+    my $nom     = $repertoire[$index]{'nom'} ;
+    my @tels    = @{$repertoire[$index]{'tels'}} ;
+    my @mail    = @{$repertoire[$index]{'mail'}} ;
+    my @adresse = @{$repertoire[$index]{'adresse'}} ;
 
-    write ;
+    format_entree( $id, $prenom, $nom, \@mail, \@adresse, \@tels ) ;
 
     print "(M)odifier (S)upprimer (.)retour : " ;
     chomp ($reponse = <>) ;
