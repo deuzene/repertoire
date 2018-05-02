@@ -16,17 +16,31 @@ sub affiche_repertoire ;     sub aff_liste_entrees ;    sub ajouter_entree ;
 sub ecrire_repertoire ;      sub modifier_entree ;      sub ouvrir_repertoire ;
 sub rechercher ;             sub supprimer_entree ;     sub is_def;
 
-#TODO: trier le repertoire par ordre alpha. de prénom
+# #############################################################################
+# structure du tableau @repertoire
+# #############################################################################
+# @repertoire
+#             { prenom  => $prenom ,
+#               nom     => $nom ,
+#               mail    => [ @mail ] ,
+#               tels    => [ @tels ] ,
+#               adresse => [ @adresse ]
+#             }
+# #############################################################################
+
 # ### programme principal #####################################################
 ouvrir_repertoire ;
 
 while (1){
-    print "(A)jouter une entrée (R)echercher (V)oir le répertoire (.)quitter\n" ;
+    print "(A)jouter une entrée (R)echercher "
+        . "(V)oir le répertoire (.)quitter\n" ;
     print "Choix : " ;
     chomp (my $reponse = <>) ;
+
     ajouter_entree        if ($reponse eq "a") ;
     rechercher            if ($reponse eq "r") ;
     affiche_repertoire    if ($reponse eq "v") ;
+
     exit                  if ($reponse eq ".") ;
 }
 
@@ -37,11 +51,11 @@ ecrire_repertoire ;
 # sub: is_def
 # arg: variable scalaire à tester
 # usage: is_def($var)
-# si la variable n'est pas définie lui affecte " "
+# si la variable n'est pas définie lui affecte " " et la retourne
 # #############################################################################
 sub is_def {
     my $var = shift;
-    $var = " " if ! defined $var ;
+    $var = " " if not defined $var ;
     return $var;
 }
 
@@ -63,6 +77,7 @@ sub ouvrir_repertoire {
     return ;
 }
 
+#TODO: trier le repertoire par ordre alpha. de prénom
 # #############################################################################
 # sub: ecrire_repertoire
 # parcours @repertoire et écrit le fichier repertoire
@@ -82,34 +97,40 @@ sub ecrire_repertoire {
 # invoque: ecrire_repertoire
 # #############################################################################
 sub ajouter_entree {
-    my $reponse = "o" ;
     my ($tel, $mail, $adresse) = qw/. . ./ ;
     my (@tels, @mail, @adresse) = () ;
 
+    my $reponse = "o" ;
+
     while ( $reponse eq "o" ) {
+        # obtention du nom et du prénom
         print "Prenom : " ;
         chomp (my $prenom = <>) ;
         print "Nom : " ;
         chomp (my $nom = <>) ;
 
+        # obtention des n° de téléphone
         while ( $tel ne "" ) {
             print "Téléphone : " ;
             chomp ($tel = <> ) ;
             push (@tels, $tel) unless ($tel eq "") ;
         }
 
+        # obtention des mails
         while ( $mail ne "" ) {
             print "email : " ;
             chomp ($mail = <> ) ;
             push (@mail, $mail) unless ($mail eq "") ;
         }
 
+        # obtention de l'adresse
         while ( $adresse ne "" ) {
             print "Adresse : " ;
             chomp ($adresse = <> ) ;
             push (@adresse, $adresse) unless ($adresse eq "") ;
         }
 
+        # on met tout ça dans @repertoire
         push @repertoire, {
                            'prenom'  => $prenom,
                            'nom'     => $nom,
@@ -118,8 +139,8 @@ sub ajouter_entree {
                            'adresse' => [ @adresse ]
                           } ;
 
+        # on recommence ?
         print "Ajouter une autre entrée ? (o/n) " ;
-        # $reponse = &une_touche;
         chomp ($reponse = <>) ;
     }
     ecrire_repertoire ;
@@ -136,6 +157,8 @@ sub ajouter_entree {
 sub format_entree {
     my ($id, $prenom, $nom, $mail, $adresse, $tels) = @_ ;
     my @info = (@$tels, @$mail) ;
+
+    # formatage de la sortie
 format STDOUT=
 @>>>@@<<<<<<<<<<<<<<<<<<<@<<<<<<<<<<<<<<<<<<<
 &is_def($id), " ", &is_def($prenom), &is_def($nom)
@@ -190,6 +213,7 @@ sub modifier_entree {
     while (1) {
         my $reponse ;
 
+        # affichage de l'entrée correspondant à l'index
         my $prenom  = $repertoire[$index]{'prenom'},
         my $nom     = $repertoire[$index]{'nom'},
         my @mail    = @{$repertoire[$index]{'mail'}} ;
@@ -198,10 +222,12 @@ sub modifier_entree {
 
         format_entree( undef, $prenom,$nom, \@mail, \@adresse, \@tels ) ;
 
+        # message d'invite
         print "Modifier (P)rénom (N)om (M)ail (T)éléphone (A)dresse (.)Écrire : " ;
         chomp ($reponse = <>) ;
         $reponse = lc $reponse;
 
+        # différente actions suivant le choix fait
         if ( "$reponse" eq "p" ) {                        # modif. prénom
             print "Nouveau prénom : " ;
             chomp (my $nvPrenom = <>) ;
@@ -215,22 +241,24 @@ sub modifier_entree {
         } elsif ( "$reponse" eq "m" ){                    # modif. mail
             my $count = 0 ;
 
+            # affichage des différents mails
             foreach ( @{$repertoire[$index]{'mail'}} ) {
                 printf "[%u] %-25s" , $count , $_ ;
                 $count++ ;
             }
 
+            # message d'invite
             print "(n°)modif (A)jouter \n" ;
             print "Choix : " ;
             chomp (my $choix = <>) ;
             $choix = lc $choix ;
 
-            if ( "$choix" eq "a" ) {
+            if ( "$choix" eq "a" ) {           # ajouter un email
                 print "Nouvel email : " ;
                 chomp ( my $nvMail = <> ) ;
                 push @{$repertoire[$index]{'mail'}} , $nvMail ;
 
-            } elsif ( $choix =~ /\d+/ ) {
+            } elsif ( $choix =~ /\d+/ ) {      # modifier un email
                 print "Nouvel email : " ;
                 chomp ( my $nvMail = <> ) ;
                 $repertoire[$index]{'mail'}[$choix] = $nvMail ;
@@ -284,17 +312,7 @@ sub modifier_entree {
                 $repertoire[$index]{'adresse'}[$choix] = $nvAdresse ;
             }
 
-        } elsif ( "$reponse" eq "s" ){
-            my $count = 0 ;
-            foreach ( @{$repertoire[$index]{tels}} ){
-                printf "[%u] %-20s", $count, $_ ;
-                $count++ ;
-            }
-            print "\n" ;
-            print "N° à supprimer : " ;
-            chomp (my $choix = <>) ;
-            splice @{$repertoire[$index]{tels}}, $choix, 1 ;
-
+            # TODO: supprimer entrée
         } elsif ( "$reponse" eq "." ) {
             last ;
         }
@@ -315,11 +333,13 @@ sub supprimer_entree {
     my $index = shift ;
     my $reponse ;
 
+    # message d'invite
     printf "Êtes-vous sur de vouloir supprimer : %s %s\n",
             $repertoire[$index]{prenom}, $repertoire[$index]{nom} ;
     print "o/n : " ;
     chomp ($reponse = <>) ;
 
+    # suppression de l'entrée
     splice (@repertoire, $index, 1) if ("$reponse" eq "o") ;
 
     ecrire_repertoire ;
@@ -337,6 +357,7 @@ sub aff_liste_entrees {
     my @liste = @_ ;
     my $reponse ;
 
+    # affichage de la liste des entrées
     foreach my $i ( @liste ) {
         my $id      = $i ;
         my $prenom  = $repertoire[$i]{'prenom'} ;
@@ -348,11 +369,13 @@ sub aff_liste_entrees {
         format_entree( $id, $prenom, $nom, \@mail, \@adresse, \@tels ) ;
     }
 
+    # message d'invite
     print "Choix : " ;
     chomp (my $index = <>) ;
     return if ( "$index" eq "." ) ;
     return if ( "$index" !~ /\d+/ ) ;
 
+    # affichage de l'entrée choisie
     my $id      = $index ;
     my $prenom  = $repertoire[$index]{'prenom'} ;
     my $nom     = $repertoire[$index]{'nom'} ;
@@ -362,9 +385,11 @@ sub aff_liste_entrees {
 
     format_entree( $id, $prenom, $nom, \@mail, \@adresse, \@tels ) ;
 
+    # message d'invite
     print "(M)odifier (S)upprimer (.)retour : " ;
     chomp ($reponse = <>) ;
 
+    # modifier, supprimer ou sortir
     return                    if ("$reponse" eq ".") ;
     modifier_entree ($index)  if ("$reponse" eq "m") ;
     supprimer_entree ($index) if ("$reponse" eq "s") ;
@@ -388,6 +413,7 @@ sub rechercher {
     print "Motif : " ;
     chomp ($motif = <>) ;
 
+    # recherche du motif dans @repertoire
     foreach my $ligne ( @repertoire ) {
         while ( my ($clef, $valeur) = each %$ligne ) {
             if ( $valeur =~ /$motif/i ){
