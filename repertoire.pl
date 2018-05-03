@@ -232,7 +232,7 @@ sub modifier_entree {
         my @tels    = @{$repertoire[$index]{'tels'}} ;
         my @adresse = @{$repertoire[$index]{'adresse'}} ;
 
-        format_entree( undef, $prenom,$nom, \@mail, \@adresse, \@tels ) ;
+        format_entree( $index, $prenom,$nom, \@mail, \@adresse, \@tels ) ;
 
         # message d'invite
         print "Modifier (P)rénom (N)om (M)ail "
@@ -362,8 +362,8 @@ sub supprimer_entree {
     my $reponse ;
 
     # message d'invite
-    printf "Êtes-vous sur de vouloir supprimer : %s %s\n",
-            $repertoire[$index]{prenom}, $repertoire[$index]{nom} ;
+    printf "Êtes-vous sûr de vouloir supprimer : %s %s\n",
+            $repertoire[$index]{'prenom'}, $repertoire[$index]{'nom'} ;
     print "o/n : " ;
     chomp ($reponse = <>) ;
 
@@ -444,28 +444,49 @@ sub uniq {
 # arg.   :
 # retour : liste
 # ############################################################################
-# TODO: rechercher aussi dans tel, mail et adresse
 sub rechercher {
-    my $motif ;              # motif à rechercher
     my @trouves ;            # liste des élément trouvés
-    my $index = 0 ;          # index de l'élément dans @repertoire
 
     print "Motif : " ;
-    chomp ($motif = <>) ;
+    chomp ( my $motif = <> ) ;
 
     # recherche du motif dans @repertoire
-    foreach my $ligne ( @repertoire ) {
-        while ( my ($clef, $valeur) = each %$ligne ) {
-            if ( $valeur =~ /$motif/i ){
+    for ( my $index = 0 ; $index < scalar(@repertoire) ; $index++ ) {
+        # recherche dans le prénom
+        if ( $repertoire[$index]{'prenom'} =~ /$motif/i ) {
+            push @trouves , $index ;
+            next ;
+        }
+
+        # recherche dans le nom
+        if ( $repertoire[$index]{'nom'} =~ /$motif/i ) {
+            push @trouves , $index ;
+            next ;
+        }
+
+        # recherche dans le(s) mail(s)
+        foreach ( @{$repertoire[$index]{'mail'}} ) {
+            if ( $_ =~ /$motif/i ) {
                 push @trouves , $index ;
                 next ;
             }
-         # if ( grep /$motif/i , @{$repertoire[$index]{'mail'}} ) {
-         # push @trouves , $index ;
-         # next ;
-         # }
         }
-        $index++ ;
+
+        # recherche dans les tél.
+        foreach ( @{$repertoire[$index]{'tels'}} ) {
+            if ( $_ =~ /$motif/i ) {
+                push @trouves , $index ;
+                next ;
+            }
+        }
+
+        # recherche dans l'adresse
+        foreach ( @{$repertoire[$index]{'adresse'}} ) {
+            if ( $_ =~ /$motif/i ) {
+                push @trouves , $index ;
+                next ;
+            }
+        }
     }
 
     # suppression des doublons
