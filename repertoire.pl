@@ -97,12 +97,13 @@ sub ecrire_repertoire {
 # invoque: ecrire_repertoire
 # #############################################################################
 sub ajouter_entree {
-    my ($tel, $mail, $adresse) = qw/. . ./ ;
-    my (@tels, @mail, @adresse) = () ;
 
     my $reponse = "o" ;
 
     while ( $reponse eq "o" ) {
+        my ($tel, $mail, $adresse) = qw/. . ./ ;
+        my (@tels, @mail, @adresse) = () ;
+
         # obtention du nom et du prénom
         print "Prenom : " ;
         chomp (my $prenom = <>) ;
@@ -172,10 +173,7 @@ format STDOUT=
      &is_def($info[3]),               &is_def($adresse->[3])
      @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
      &is_def($info[4])
-     @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-     &is_def($info[5])
-     @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-     &is_def($info[6])
+
 .
 
 write STDOUT ;
@@ -254,13 +252,19 @@ sub modifier_entree {
             $choix = lc $choix ;
 
             if ( "$choix" eq "a" ) {           # ajouter un email
+                # message d'invite
                 print "Nouvel email : " ;
                 chomp ( my $nvMail = <> ) ;
+
+                # jout de l'entrée à @repertoire
                 push @{$repertoire[$index]{'mail'}} , $nvMail ;
 
             } elsif ( $choix =~ /\d+/ ) {      # modifier un email
+                # message d'invite
                 print "Nouvel email : " ;
                 chomp ( my $nvMail = <> ) ;
+
+                # modification de l'entrée $index
                 $repertoire[$index]{'mail'}[$choix] = $nvMail ;
             }
 
@@ -310,10 +314,19 @@ sub modifier_entree {
                 print "Nouvelle adresse : " ;
                 chomp ( my $nvAdresse = <> ) ;
                 $repertoire[$index]{'adresse'}[$choix] = $nvAdresse ;
+
             }
 
-            # TODO: supprimer entrée
-        } elsif ( "$reponse" eq "." ) {
+        } elsif ( "reponse" eq "s" ) {                # suppression de l'entrée
+            # invite
+            print "Suppimer o/n ? " ;
+            chomp ( my $choix = <> ) ;
+            $choix = lc $choix ;
+
+            # suppression de l'entrée $index
+            splice @{$repertoire[$index]} , $index , 1 if ( "$choix" eq "o" ) ;
+
+        } elsif ( "$reponse" eq "." ) {               # sortie
             last ;
         }
     }
@@ -405,6 +418,7 @@ sub aff_liste_entrees {
 # arg.   :
 # retour : liste
 # ############################################################################
+# TODO: rechercher aussi dans tel, mail et adresse
 sub rechercher {
     my $motif ;              # motif à rechercher
     my @trouves ;            # liste des élément trouvés
@@ -417,9 +431,13 @@ sub rechercher {
     foreach my $ligne ( @repertoire ) {
         while ( my ($clef, $valeur) = each %$ligne ) {
             if ( $valeur =~ /$motif/i ){
-                push (@trouves, $index) ;
+                push @trouves , $index ;
                 next ;
             }
+         # if ( grep /$motif/i , @{$repertoire[$index]{'mail'}} ) {
+         # push @trouves , $index ;
+         # next ;
+         # }
         }
         $index++ ;
     }
