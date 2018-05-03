@@ -409,6 +409,10 @@ sub aff_liste_entrees {
     return ;
 }
 
+sub uniq {
+    my %hash ;
+    grep { !$hash{$_}++ } @_ ;
+}
 
 # ############################################################################
 # sub    : rechercher
@@ -442,6 +446,7 @@ sub rechercher {
         $index++ ;
     }
 
-    aff_liste_entrees (@trouves) ;
+    my @dedupe = uniq (@trouves) ;
+    aff_liste_entrees (@dedupe) ;
     return ;
 }
