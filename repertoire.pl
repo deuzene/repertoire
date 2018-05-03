@@ -9,13 +9,19 @@ use feature ":5.24" ;
 use Storable ;
 use Term::ReadKey;
 
-my @repertoire  ;                # le repertoire (array de hash)
-my $fichier = "repertoire" ;     # fichier de sauvegarde
-
-sub affiche_repertoire ;     sub aff_liste_entrees ;    sub ajouter_entree ;
-sub ecrire_repertoire ;      sub modifier_entree ;      sub ouvrir_repertoire ;
-sub rechercher ;             sub supprimer_entree ;     sub is_def;
-
+# #############################################################################
+# Ce programme est un répertoire permettant de créer des entrées comprenant :
+# - le nom et le prénom
+# - un ou plusieurs n° de téléphone
+# - une ou plusieurs adresse email
+# - une adresse multiligne
+#
+# Il permet de voir toutes les entrées, rechercher une entrée par son nom
+# ou son prénom, pour ajouter, supprimer et modifier des information, ajouter
+# et supprimer des entrées.
+#
+# Les données sont stockées dans le tableau @repertoire (voir ci-dessus)
+# qui est sauvegardé dans $fichier ('repertoire' par défaut).
 # #############################################################################
 # structure du tableau @repertoire
 # #############################################################################
@@ -28,6 +34,14 @@ sub rechercher ;             sub supprimer_entree ;     sub is_def;
 #             }
 # #############################################################################
 
+my @repertoire  ;                # le repertoire (array de hash)
+my $fichier = "repertoire" ;     # fichier de sauvegarde
+
+sub affiche_repertoire ;     sub aff_liste_entrees ;    sub ajouter_entree ;
+sub ecrire_repertoire ;      sub modifier_entree ;      sub ouvrir_repertoire ;
+sub rechercher ;             sub supprimer_entree ;     sub is_def;
+sub uniq ;                   sub format_entree ;
+
 # ### programme principal #####################################################
 ouvrir_repertoire ;
 
@@ -35,13 +49,13 @@ while (1){
     print "(A)jouter une entrée (R)echercher "
         . "(V)oir le répertoire (.)quitter\n" ;
     print "Choix : " ;
-    chomp (my $reponse = <>) ;
+    chomp (my $choix = <>) ;
 
-    ajouter_entree        if ($reponse eq "a") ;
-    rechercher            if ($reponse eq "r") ;
-    affiche_repertoire    if ($reponse eq "v") ;
+    ajouter_entree        if ($choix eq "a") ;
+    rechercher            if ($choix eq "r") ;
+    affiche_repertoire    if ($choix eq "v") ;
 
-    exit                  if ($reponse eq ".") ;
+    exit                  if ($choix eq ".") ;
 }
 
 ecrire_repertoire ;
@@ -221,7 +235,8 @@ sub modifier_entree {
         format_entree( undef, $prenom,$nom, \@mail, \@adresse, \@tels ) ;
 
         # message d'invite
-        print "Modifier (P)rénom (N)om (M)ail (T)éléphone (A)dresse (.)Écrire : " ;
+        print "Modifier (P)rénom (N)om (M)ail "
+            . "(T)éléphone (A)dresse (.)Écrire : " ;
         chomp ($reponse = <>) ;
         $reponse = lc $reponse;
 
@@ -318,7 +333,7 @@ sub modifier_entree {
             }
 
         } elsif ( "reponse" eq "s" ) {                # suppression de l'entrée
-            # invite
+            # message d'invite
             print "Suppimer o/n ? " ;
             chomp ( my $choix = <> ) ;
             $choix = lc $choix ;
@@ -409,6 +424,13 @@ sub aff_liste_entrees {
     return ;
 }
 
+# ############################################################################
+# sub    : uniq
+# desc.  : supprimer les doublons de la liste passée en argument
+# usage  : uniq(@liste)
+# arg.   : @liste
+# retour : @liste sans les doublons
+# ############################################################################
 sub uniq {
     my %hash ;
     grep { !$hash{$_}++ } @_ ;
@@ -446,7 +468,11 @@ sub rechercher {
         $index++ ;
     }
 
+    # suppression des doublons
     my @dedupe = uniq (@trouves) ;
+
+    # affichage de la liste des entrées trouvées
     aff_liste_entrees (@dedupe) ;
+
     return ;
 }
