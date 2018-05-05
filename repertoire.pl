@@ -83,7 +83,7 @@ sub is_def {
 sub ouvrir_repertoire {
     if ( -e $fichier ) {
         my $ref = retrieve "$fichier" ;
-        @repertoire = @$ref ;
+        @repertoire = @{$ref} ;
     } else {
         ajouter_entree ; # si le fichier n'existe pas creer repertoire
     }
@@ -169,7 +169,7 @@ sub ajouter_entree {
 # retour :
 # ############################################################################
 sub format_entree {
-    my ($id, $prenom, $nom, $mail, $adresse, $tels) = @_ ;
+    my ($id, $prenom, $nom) = @_ ;
     my @info = (@$tels, @$mail) ;
 
     # formatage de la sortie
@@ -190,6 +190,8 @@ format STDOUT=
 .
 
 write STDOUT ;
+
+return ;
 }
 
 # #############################################################################
@@ -273,7 +275,7 @@ sub modifier_entree {
                 # jout de l'entrée à @repertoire
                 push @{$repertoire[$index]{'mail'}} , $nvMail ;
 
-            } elsif ( $choix =~ /\d+/ ) {      # modifier un email
+            } elsif ( $choix =~ /\d+/x ) {      # modifier un email
                 # message d'invite
                 print "Nouvel email : " ;
                 chomp ( my $nvMail = <> ) ;
@@ -300,7 +302,7 @@ sub modifier_entree {
                 chomp ( my $nvTel = <> ) ;
                 push @{$repertoire[$index]{'tels'}} , $nvTel ;
 
-            } elsif ( $choix =~ /\d+/ ) {
+            } elsif ( $choix =~ /\d+/x ) {
                 print "Nouveau téléphone : " ;
                 chomp ( my $nvTel = <> ) ;
                 $repertoire[$index]{'tels'}[$choix] = $nvTel ;
@@ -324,7 +326,7 @@ sub modifier_entree {
                 chomp ( my $nvAdresse = <> ) ;
                 push @{$repertoire[$index]{'adresse'}} , $nvAdresse ;
 
-            } elsif ( $choix =~ /\d+/ ) {
+            } elsif ( $choix =~ /\d+/x ) {
                 print "Nouvelle adresse : " ;
                 chomp ( my $nvAdresse = <> ) ;
                 $repertoire[$index]{'adresse'}[$choix] = $nvAdresse ;
@@ -400,7 +402,7 @@ sub aff_liste_entrees {
     print "Choix : " ;
     chomp (my $index = <>) ;
     return if ( "$index" eq "." ) ;
-    return if ( "$index" !~ /\d+/ ) ;
+    return if ( "$index" !~ /\d+/x ) ;
 
     # affichage de l'entrée choisie
     my $id      = $index ;
@@ -431,8 +433,12 @@ sub aff_liste_entrees {
 # retour : @liste sans les doublons
 # ############################################################################
 sub uniq {
+    my @array = @_ ;
     my %hash ;
-    grep { !$hash{$_}++ } @_ ;
+
+    grep { !$hash{$_}++ } @array ;
+
+    return ;
 }
 
 # ############################################################################
@@ -452,20 +458,20 @@ sub rechercher {
     # recherche du motif dans @repertoire
     for ( my $index = 0 ; $index < scalar(@repertoire) ; $index++ ) {
         # recherche dans le prénom
-        if ( $repertoire[$index]{'prenom'} =~ /$motif/i ) {
+        if ( $repertoire[$index]{'prenom'} =~ /$motif/ix ) {
             push @trouves , $index ;
             next ;
         }
 
         # recherche dans le nom
-        if ( $repertoire[$index]{'nom'} =~ /$motif/i ) {
+        if ( $repertoire[$index]{'nom'} =~ /$motif/ix ) {
             push @trouves , $index ;
             next ;
         }
 
         # recherche dans le(s) mail(s)
         foreach ( @{$repertoire[$index]{'mail'}} ) {
-            if ( $_ =~ /$motif/i ) {
+            if ( $_ =~ /$motif/ix ) {
                 push @trouves , $index ;
                 next ;
             }
@@ -473,7 +479,7 @@ sub rechercher {
 
         # recherche dans les tél.
         foreach ( @{$repertoire[$index]{'tels'}} ) {
-            if ( $_ =~ /$motif/i ) {
+            if ( $_ =~ /$motif/ix ) {
                 push @trouves , $index ;
                 next ;
             }
@@ -481,7 +487,7 @@ sub rechercher {
 
         # recherche dans l'adresse
         foreach ( @{$repertoire[$index]{'adresse'}} ) {
-            if ( $_ =~ /$motif/i ) {
+            if ( $_ =~ /$motif/ix ) {
                 push @trouves , $index ;
                 next ;
             }
