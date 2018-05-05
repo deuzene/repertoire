@@ -10,17 +10,18 @@ use Storable ;
 
 # #############################################################################
 # Ce programme est un répertoire permettant de créer des entrées comprenant :
-# - le nom et le prénom
+# - le nom et le prénom d'une personne
 # - un ou plusieurs n° de téléphone
 # - une ou plusieurs adresse email
-# - une adresse multiligne
+# - une adresse multilignes
 #
-# Il permet de voir toutes les entrées, rechercher une entrée par son nom
-# ou son prénom, pour ajouter, supprimer et modifier des information, ajouter
-# et supprimer des entrées.
+# Il permet de voir toutes les entrées, rechercher une entrée par son nom,
+# son prénom, mail, adresse, pour ajouter, supprimer et modifier des
+# informations, ajouter et supprimer des entrées.
 #
 # Les données sont stockées dans le tableau @repertoire (voir ci-dessus)
 # qui est sauvegardé dans $fichier ('repertoire' par défaut).
+#
 # #############################################################################
 # structure du tableau @repertoire
 # #############################################################################
