@@ -7,7 +7,6 @@ use Data::Dumper ;
 use feature ":5.24" ;
 
 use Storable ;
-use Term::ReadKey;
 
 # #############################################################################
 # Ce programme est un répertoire permettant de créer des entrées comprenant :
