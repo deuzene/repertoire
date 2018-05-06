@@ -200,6 +200,7 @@ return ;
 # #############################################################################
 sub affiche_repertoire {
     my $id = 0 ;
+
     foreach my $personne ( @repertoire ) {     # parcours tout le répertoire
         my $prenom  = $personne->{'prenom'} ;
         my $nom     = $personne->{'nom'} ;
@@ -208,6 +209,7 @@ sub affiche_repertoire {
         my @adresse = @{$personne->{'adresse'}} ;
 
         format_entree( $id, $prenom, $nom, \@mail, \@adresse, \@tels ) ;
+
         $id++ ;
     }
     return ;
