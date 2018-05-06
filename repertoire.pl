@@ -175,19 +175,16 @@ sub format_entree {
 
     # formatage de la sortie
 format STDOUT=
-@>>>@@<<<<<<<<<<<<<<<<<<<@<<<<<<<<<<<<<<<<<<<
-&is_def($id), " ", &is_def($prenom), &is_def($nom)
-     @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-     &is_def($info[0]),               &is_def($adresse->[0])
-     @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-     &is_def($info[1]),               &is_def($adresse->[1])
-     @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-     &is_def($info[2]),               &is_def($adresse->[2])
-     @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-     &is_def($info[3]),               &is_def($adresse->[3])
-     @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-     &is_def($info[4])
-
+ @>>> @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<
+ &is_def($id), &is_def($prenom), &is_def($nom),
+      @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      &is_def($adresse->[0]),  &is_def($info[0]),
+      @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      &is_def($adresse->[1]),  &is_def($info[1]),
+      @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      &is_def($adresse->[2]),  &is_def($info[2]),
+      @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      &is_def($adresse->[3]),         &is_def($info[3]),
 .
 
 write STDOUT ;
@@ -202,6 +199,7 @@ return ;
 # usage: affiche_repertoire
 # #############################################################################
 sub affiche_repertoire {
+    my $id = 0 ;
     foreach my $personne ( @repertoire ) {     # parcours tout le répertoire
         my $prenom  = $personne->{'prenom'} ;
         my $nom     = $personne->{'nom'} ;
@@ -209,7 +207,8 @@ sub affiche_repertoire {
         my @mail    = @{$personne->{'mail'}} ;
         my @adresse = @{$personne->{'adresse'}} ;
 
-        format_entree( undef, $prenom, $nom, \@mail, \@adresse, \@tels ) ;
+        format_entree( $id, $prenom, $nom, \@mail, \@adresse, \@tels ) ;
+        $id++ ;
     }
     return ;
 }
