@@ -8,8 +8,10 @@ use feature ":5.24";
 
 use Text::LineEditor ;
 
-my $text = line_editor() ;
+# my $text = line_editor() ;
 # print $text ;
+my @liste = qw/un deux trois quatre cinq six/ ;
+my $text =  join "\n" , @liste ;
 
 format STDOUT=
 ^<<<<<<<<<<<<<<
@@ -23,3 +25,5 @@ $text
 .
 
 write ;
+
+# print $text . "\n" ;

@@ -434,12 +434,11 @@ sub aff_liste_entrees {
 # retour : @liste sans les doublons
 # ############################################################################
 sub uniq {
-    my @array = @_ ;
     my %hash ;
 
-    grep { !$hash{$_}++ } @array ;
+    grep { !$hash{$_}++ } @_ ;
 
-    return ;
+    # return ; # ne pas mettre de return, ne marche pas sinon
 }
 
 # ############################################################################
