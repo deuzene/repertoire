@@ -173,8 +173,41 @@ sub format_entree {
     my ($id, $prenom, $nom, $mail, $adresse, $tels) = @_ ;
     my @info = (@$tels, @$mail) ;
 
-    # formatage de la sortie
-format STDOUT=
+    # formatage de la sortie sur 1 ligne
+format AFF_1=
+ @>>> @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<
+ &is_def($id), &is_def($prenom), &is_def($nom),
+      @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      &is_def($adresse->[0]),  &is_def($info[0]),
+
+.
+
+    # formatage de la sortie sur 2 lignes
+format AFF_2=
+ @>>> @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<
+ &is_def($id), &is_def($prenom), &is_def($nom),
+      @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      &is_def($adresse->[0]),  &is_def($info[0]),
+      @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      &is_def($adresse->[1]),  &is_def($info[1]),
+
+.
+
+    # formatage de la sortie sur 3 lignes
+format AFF_3=
+ @>>> @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<
+ &is_def($id), &is_def($prenom), &is_def($nom),
+      @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      &is_def($adresse->[0]),  &is_def($info[0]),
+      @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      &is_def($adresse->[1]),  &is_def($info[1]),
+      @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      &is_def($adresse->[2]),  &is_def($info[2]),
+
+.
+
+    # formatage de la sortie sur 4 lignes
+format AFF_4=
  @>>> @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<
  &is_def($id), &is_def($prenom), &is_def($nom),
       @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -185,9 +218,45 @@ format STDOUT=
       &is_def($adresse->[2]),  &is_def($info[2]),
       @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       &is_def($adresse->[3]),  &is_def($info[3]),
+
 .
 
-write STDOUT ;
+    # formatage de la sortie sur 5 lignes
+format AFF_5=
+ @>>> @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<
+ &is_def($id), &is_def($prenom), &is_def($nom),
+      @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      &is_def($adresse->[0]),  &is_def($info[0]),
+      @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      &is_def($adresse->[1]),  &is_def($info[1]),
+      @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      &is_def($adresse->[2]),  &is_def($info[2]),
+      @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      &is_def($adresse->[3]),  &is_def($info[3]),
+      @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      &is_def($adresse->[4]),  &is_def($info[4]),
+
+.
+
+# nombre de lignes à afficher
+my $lignes ;
+
+if ( scalar(@info) >= scalar(@$adresse) ) {
+    $lignes = scalar(@info) ;
+
+} else {
+    my $lignes = scalar(@$adresse) ;
+}
+
+# choix du format d'affichage
+$~ = "AFF_1" if ( $lignes == 1 ) ;
+$~ = "AFF_2" if ( $lignes == 2 ) ;
+$~ = "AFF_3" if ( $lignes == 3 ) ;
+$~ = "AFF_4" if ( $lignes == 4 ) ;
+$~ = "AFF_5" if ( $lignes == 5 ) ;
+
+# écriture
+write ;
 
 return ;
 }
