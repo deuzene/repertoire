@@ -184,7 +184,7 @@ format STDOUT=
       @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       &is_def($adresse->[2]),  &is_def($info[2]),
       @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-      &is_def($adresse->[3]),         &is_def($info[3]),
+      &is_def($adresse->[3]),  &is_def($info[3]),
 .
 
 write STDOUT ;

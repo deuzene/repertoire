@@ -13,7 +13,7 @@ use Text::LineEditor ;
 my @liste = qw/un deux trois quatre cinq six/ ;
 my $text =  join "\n" , @liste ;
 
-format STDOUT=
+format REPORT1=
 ^<<<<<<<<<<<<<<
 $text
 ^<<<<<<<<<<<<<<
@@ -24,6 +24,21 @@ $text
 $text
 .
 
+format REPORT2=
+@<<<<<<<<<<<<<<
+$text
+@<<<<<<<<<<<<<<
+$text
+@<<<<<<<<<<<<<<
+$text
+@<<<<<<<<<<<<<<
+$text
+.
+
+$~ = "REPORT2" ;
 write ;
+
+$~ = "REPORT1" ;
+write
 
 # print $text . "\n" ;
