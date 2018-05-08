@@ -40,7 +40,7 @@ Ce `@repertoire` est sauvegardé sur disque dans le fichier `repertoire`.
 
 # Utilisation
 
- Ce programme fonctionne en ligne de commande sur GNU/Linux. 
+ Ce programme fonctionne en ligne de commande sur GNU/Linux.
 
 `$ ./repertoire`
 
@@ -55,7 +55,7 @@ Le répertoire est sauvegarder automatiquement.
 
 ## Licence
 
-Ce travail est placé sous double licences [WTFPL](http://www.wtfpl.net/)/[LPRAB](http://sam.zoy.org/lprab/) et Beerware ([fr](https://fr.wikipedia.org/wiki/Beerware)) ([en](https://en.wikipedia.org/wiki/Beerware))
+Ce travail est placé sous double licences [WTFPL](http://www.wtfpl.net/ "wtfpl.net")/[LPRAB](http://sam.zoy.org/lprab/ "Sam Hocevar") et Beerware ([fr](https://fr.wikipedia.org/wiki/Beerware "wikipedia")) ([en](https://en.wikipedia.org/wiki/Beerware "wikipedia"))
 
 Vous pouvez bien faire ce que vous voulez de ces lignes de code, vous n'êtes
 pas obligé de me citer. Par contre si l'envie vous prends de m'offrir une
