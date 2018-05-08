@@ -38,6 +38,19 @@ Les données sont stockées dans un AoH un peu particulier :
 
 Ce `@repertoire` est sauvegardé sur disque dans le fichier `repertoire`.
 
+# Utilisation
+
+`$ ./repertoire`
+
+puis suivez les propositions.
+
+Le mode de recherche fonctionne comme ceci : vous fournissez un motif et le
+programme renvoie le ou les entrée(s) correspondante(s). Le motif peut être
+trouvé dans : le prénom, le nom, les n° de téléphone, les adresses mail ou
+encore l'adresse postale.
+
+Le répertoire est sauvegarder automatiquement.
+
 ## Licence
 
 Ce travail est placé sous double licences [WTFPL](http://www.wtfpl.net/)/[LPRAB](http://sam.zoy.org/lprab/) et Beerware ([fr](https://fr.wikipedia.org/wiki/Beerware)) ([en](https://en.wikipedia.org/wiki/Beerware))
