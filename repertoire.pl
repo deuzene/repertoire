@@ -30,12 +30,11 @@ use Storable ;
 #               tels    => [ @tels ] ,
 #               adresse => [ @adresse ]
 #             }
+my @repertoire  ;
 # #############################################################################
 
-my @repertoire  ;                # le repertoire (array de hash)
-
 my $fichier = shift ;
-my $fichier = "repertoire" if ( ! defined $fichier ) ;
+$fichier = "repertoire" if ( ! defined $fichier ) ;
 
 sub affiche_repertoire ;     sub aff_liste_entrees ;    sub ajouter_entree ;
 sub ecrire_repertoire ;      sub modifier_entree ;      sub ouvrir_repertoire ;
