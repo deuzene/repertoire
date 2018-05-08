@@ -91,7 +91,6 @@ sub ouvrir_repertoire {
     return ;
 }
 
-#TODO: trier le repertoire par ordre alpha. de prénom
 # #############################################################################
 # sub: ecrire_repertoire
 # parcours @repertoire et écrit le fichier repertoire
