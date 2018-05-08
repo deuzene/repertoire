@@ -40,6 +40,8 @@ Ce `@repertoire` est sauvegardé sur disque dans le fichier `repertoire`.
 
 # Utilisation
 
+ Ce programme fonctionne en ligne de commande sur GNU/Linux. 
+
 `$ ./repertoire`
 
 puis suivez les propositions.
