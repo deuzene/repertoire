@@ -2,8 +2,6 @@
 use strict ;
 use warnings ;
 use diagnostics ;
-use Smart::Comments ;
-use Data::Dumper ;
 use feature ":5.24" ;
 
 use Storable ;
@@ -46,6 +44,7 @@ sub uniq ;                   sub format_entree ;
 ouvrir_repertoire ;
 
 while (1){
+    # message d'invite
     print "(A)jouter une entrée (R)echercher "
         . "(V)oir le répertoire (.)quitter\n" ;
     print "Choix : " ;
