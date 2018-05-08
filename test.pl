@@ -6,39 +6,20 @@ use Smart::Comments;
 use Data::Dumper;
 use feature ":5.24";
 
-use Text::LineEditor ;
+use List::MoreUtils ;
+use Storable ;
 
-# my $text = line_editor() ;
-# print $text ;
-my @liste = qw/un deux trois quatre cinq six/ ;
-my $text =  join "\n" , @liste ;
+my $fichier = "repertoire" ;
+my @repertoire ;
 
-format REPORT1=
-^<<<<<<<<<<<<<<
-$text
-^<<<<<<<<<<<<<<
-$text
-^<<<<<<<<<<<<<<
-$text
-^<<<<<<<<<<<<<<
-$text
-.
+sub ouvrir_repertoire {
+    if ( -e $fichier ) {
+        my $ref = retrieve "$fichier" ;
+        @repertoire = @{$ref} ;
+    } else {
+        # ajouter_entree ; # si le fichier n'existe pas creer repertoire
+    }
+    return ;
+}
 
-format REPORT2=
-@<<<<<<<<<<<<<<
-$text
-@<<<<<<<<<<<<<<
-$text
-@<<<<<<<<<<<<<<
-$text
-@<<<<<<<<<<<<<<
-$text
-.
-
-$~ = "REPORT2" ;
-write ;
-
-$~ = "REPORT1" ;
-write
-
-# print $text . "\n" ;
+sort_by { $_->'prenom'  } @repertoire ;
