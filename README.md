@@ -42,9 +42,11 @@ Ce `@repertoire` est sauvegardé sur disque dans le fichier `repertoire`.
 
  Ce programme fonctionne en ligne de commande sur GNU/Linux.
 
-`$ ./repertoire`
+`$ ./repertoire [nom de fichier]`
 
-puis suivez les propositions.
+ouvre `nom de fichier` (_repertoire_ par défaut)
+
+Suivez les propositions, elles sont assez simples.
 
 Le mode de recherche fonctionne comme ceci : vous fournissez un motif et le
 programme renvoie le ou les entrée(s) correspondante(s). Le motif peut être
