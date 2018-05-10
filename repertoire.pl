@@ -114,7 +114,7 @@ sub ajouter_entree {
     my $reponse = "o" ;
 
     while ( $reponse eq "o" ) {
-        my ($tel, $mail, $adresse) = qw/. . ./ ;
+        my ($tel, $mail, $adresse)  = qw/. . ./ ;
         my (@tels, @mail, @adresse) = () ;
 
         # obtention du nom et du prénom
@@ -124,24 +124,27 @@ sub ajouter_entree {
         chomp (my $nom = <>) ;
 
         # obtention des n° de téléphone
-        while ( $tel ne "" ) {
+        while ( $tel ne "" ) { # tant qu'on entre pas une ligne vide
             print "Téléphone : " ;
-            chomp ($tel = <> ) ;
-            push (@tels, $tel) unless ($tel eq "") ;
+            chomp ($tel = <>) ;
+
+            push @tels, $tel unless ( $tel eq "" ) ;
         }
 
         # obtention des mails
         while ( $mail ne "" ) {
             print "email : " ;
-            chomp ($mail = <> ) ;
-            push (@mail, $mail) unless ($mail eq "") ;
+            chomp ($mail = <>) ;
+
+            push @mail, $mail unless ( $mail eq "" ) ;
         }
 
         # obtention de l'adresse
         while ( $adresse ne "" ) {
             print "Adresse : " ;
-            chomp ($adresse = <> ) ;
-            push (@adresse, $adresse) unless ($adresse eq "") ;
+            chomp ($adresse = <>) ;
+
+            push @adresse, $adresse unless ( $adresse eq "" ) ;
         }
 
         # on met tout ça dans @repertoire
@@ -157,6 +160,8 @@ sub ajouter_entree {
         print "Ajouter une autre entrée ? (o/n) " ;
         chomp ($reponse = <>) ;
     }
+
+    # Sortie
     ecrire_repertoire ;
     return ;
 }
@@ -172,7 +177,8 @@ sub format_entree {
     my ($id, $prenom, $nom, $mail, $adresse, $tels) = @_ ;
     my @info = (@$tels, @$mail) ;
 
-    # formatage de la sortie sur 1 ligne
+# #### définitions des formats ###############################################
+# formatage de la sortie sur 1 ligne
 format AFF_1=
  @>>> @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<
  &is_def($id), &is_def($prenom), &is_def($nom),
@@ -181,7 +187,7 @@ format AFF_1=
 
 .
 
-    # formatage de la sortie sur 2 lignes
+# formatage de la sortie sur 2 lignes
 format AFF_2=
  @>>> @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<
  &is_def($id), &is_def($prenom), &is_def($nom),
@@ -192,7 +198,7 @@ format AFF_2=
 
 .
 
-    # formatage de la sortie sur 3 lignes
+# formatage de la sortie sur 3 lignes
 format AFF_3=
  @>>> @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<
  &is_def($id), &is_def($prenom), &is_def($nom),
@@ -205,7 +211,7 @@ format AFF_3=
 
 .
 
-    # formatage de la sortie sur 4 lignes
+# formatage de la sortie sur 4 lignes
 format AFF_4=
  @>>> @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<
  &is_def($id), &is_def($prenom), &is_def($nom),
@@ -220,7 +226,7 @@ format AFF_4=
 
 .
 
-    # formatage de la sortie sur 5 lignes
+# formatage de la sortie sur 5 lignes
 format AFF_5=
  @>>> @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<
  &is_def($id), &is_def($prenom), &is_def($nom),
@@ -236,10 +242,12 @@ format AFF_5=
       &is_def($adresse->[4]),  &is_def($info[4]),
 
 .
+# ### fin définition des formats ##############################################
 
 # nombre de lignes à afficher
 my $lignes ;
 
+# on prends le plus grand des deux
 if ( scalar(@info) >= scalar(@$adresse) ) {
     $lignes = scalar(@info) ;
 
@@ -248,13 +256,14 @@ if ( scalar(@info) >= scalar(@$adresse) ) {
 }
 
 # choix du format d'affichage
+# $~ sélectionne le format
 $~ = "AFF_1" if ( $lignes == 1 ) ;
 $~ = "AFF_2" if ( $lignes == 2 ) ;
 $~ = "AFF_3" if ( $lignes == 3 ) ;
 $~ = "AFF_4" if ( $lignes == 4 ) ;
 $~ = "AFF_5" if ( $lignes == 5 ) ;
 
-# écriture
+# écriture suivant le format choisi
 write ;
 
 return ;
@@ -276,8 +285,10 @@ sub affiche_repertoire {
         my @mail    = @{$personne->{'mail'}} ;
         my @adresse = @{$personne->{'adresse'}} ;
 
+        # affichage formaté
         format_entree( $id, $prenom, $nom, \@mail, \@adresse, \@tels ) ;
 
+        # on comptabilise l'id
         $id++ ;
     }
     return ;
@@ -291,7 +302,7 @@ sub affiche_repertoire {
 # invoque: ecrire_repertoire
 # #############################################################################
 sub modifier_entree {
-    my $index = shift ;
+    my $index = shift ; # l'index de l'entrée à modifier
 
     while (1) {
         my $reponse ;
@@ -312,17 +323,17 @@ sub modifier_entree {
         $reponse = lc $reponse;
 
         # différente actions suivant le choix fait
-        if ( "$reponse" eq "p" ) {                        # modif. prénom
+        if ( "$reponse" eq "p" ) {         # modif. prénom
             print "Nouveau prénom : " ;
             chomp (my $nvPrenom = <>) ;
             $repertoire[$index]{'prenom'} = $nvPrenom ;
 
-        } elsif ( "$reponse" eq "n" ) {                   # modif. nom
+        } elsif ( "$reponse" eq "n" ) {    # modif. nom
             print "Nouveau nom : " ;
             chomp (my $nvNom = <>) ;
             $repertoire[$index]{'nom'} = $nvNom ;
 
-        } elsif ( "$reponse" eq "m" ){                    # modif. mail
+        } elsif ( "$reponse" eq "m" ){     # modif. mail
             my $count = 0 ;
 
             # affichage des différents mails
@@ -337,15 +348,15 @@ sub modifier_entree {
             chomp (my $choix = <>) ;
             $choix = lc $choix ;
 
-            if ( "$choix" eq "a" ) {           # ajouter un email
+            if ( "$choix" eq "a" ) {       # ajouter un email
                 # message d'invite
                 print "Nouvel email : " ;
                 chomp ( my $nvMail = <> ) ;
 
-                # jout de l'entrée à @repertoire
+                # ajout de l'entrée à @repertoire
                 push @{$repertoire[$index]{'mail'}} , $nvMail ;
 
-            } elsif ( $choix =~ /\d+/x ) {      # modifier un email
+            } elsif ( $choix =~ /\d+/x ) {      # modifier l'email n°
                 # message d'invite
                 print "Nouvel email : " ;
                 chomp ( my $nvMail = <> ) ;
@@ -416,6 +427,8 @@ sub modifier_entree {
             last ;
         }
     }
+
+    # sortie
     ecrire_repertoire ;
     return ;
 }
