@@ -44,7 +44,7 @@ Ce `@repertoire` est sauvegardé sur disque dans le fichier `repertoire`.
 
 `$ ./repertoire [nom de fichier]`
 
-ouvre `nom de fichier` (_repertoire_ par défaut)
+ouvre `nom de fichier` (_repertoire_ par défaut). Vous pouvez de cette façon avoir plusieurs répertoires.
 
 Suivez les propositions, elles sont assez simples.
 
