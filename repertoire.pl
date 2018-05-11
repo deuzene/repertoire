@@ -49,7 +49,7 @@ while (1){
     print "(A)jouter une entrée (R)echercher "
         . "(V)oir le répertoire (.)quitter\n" ;
     print "Choix : " ;
-    chomp (my $choix = <>) ;
+    chomp(my $choix = <>) ;
 
     ajouter_entree        if ($choix eq "a") ;
     rechercher            if ($choix eq "r") ;
@@ -119,14 +119,14 @@ sub ajouter_entree {
 
         # obtention du nom et du prénom
         print "Prenom : " ;
-        chomp (my $prenom = <>) ;
+        chomp(my $prenom = <>) ;
         print "Nom : " ;
-        chomp (my $nom = <>) ;
+        chomp(my $nom = <>) ;
 
         # obtention des n° de téléphone
         while ( $tel ne "" ) { # tant qu'on entre pas une ligne vide
             print "Téléphone : " ;
-            chomp ($tel = <>) ;
+            chomp($tel = <>) ;
 
             push @tels, $tel unless ( $tel eq "" ) ;
         }
@@ -134,7 +134,7 @@ sub ajouter_entree {
         # obtention des mails
         while ( $mail ne "" ) {
             print "email : " ;
-            chomp ($mail = <>) ;
+            chomp($mail = <>) ;
 
             push @mail, $mail unless ( $mail eq "" ) ;
         }
@@ -142,7 +142,7 @@ sub ajouter_entree {
         # obtention de l'adresse
         while ( $adresse ne "" ) {
             print "Adresse : " ;
-            chomp ($adresse = <>) ;
+            chomp($adresse = <>) ;
 
             push @adresse, $adresse unless ( $adresse eq "" ) ;
         }
@@ -158,7 +158,7 @@ sub ajouter_entree {
 
         # on recommence ?
         print "Ajouter une autre entrée ? (o/n) " ;
-        chomp ($reponse = <>) ;
+        chomp($reponse = <>) ;
     }
 
     # Sortie
@@ -319,18 +319,18 @@ sub modifier_entree {
         # message d'invite
         print "Modifier (P)rénom (N)om (M)ail "
             . "(T)éléphone (A)dresse (.)Écrire : " ;
-        chomp ($reponse = <>) ;
+        chomp($reponse = <>) ;
         $reponse = lc $reponse;
 
         # différente actions suivant le choix fait
         if ( "$reponse" eq "p" ) {         # modif. prénom
             print "Nouveau prénom : " ;
-            chomp (my $nvPrenom = <>) ;
+            chomp(my $nvPrenom = <>) ;
             $repertoire[$index]{'prenom'} = $nvPrenom ;
 
         } elsif ( "$reponse" eq "n" ) {    # modif. nom
             print "Nouveau nom : " ;
-            chomp (my $nvNom = <>) ;
+            chomp(my $nvNom = <>) ;
             $repertoire[$index]{'nom'} = $nvNom ;
 
         } elsif ( "$reponse" eq "m" ){     # modif. mail
@@ -345,13 +345,13 @@ sub modifier_entree {
             # message d'invite
             print "(n°)modif (A)jouter \n" ;
             print "Choix : " ;
-            chomp (my $choix = <>) ;
+            chomp(my $choix = <>) ;
             $choix = lc $choix ;
 
             if ( "$choix" eq "a" ) {       # ajouter un email
                 # message d'invite
                 print "Nouvel email : " ;
-                chomp ( my $nvMail = <> ) ;
+                chomp(my $nvMail = <>) ;
 
                 # ajout de l'entrée à @repertoire
                 push @{$repertoire[$index]{'mail'}} , $nvMail ;
@@ -359,7 +359,7 @@ sub modifier_entree {
             } elsif ( $choix =~ /\d+/x ) {      # modifier l'email n°
                 # message d'invite
                 print "Nouvel email : " ;
-                chomp ( my $nvMail = <> ) ;
+                chomp(my $nvMail = <>) ;
 
                 # modification de l'entrée $index
                 $repertoire[$index]{'mail'}[$choix] = $nvMail ;
@@ -375,17 +375,17 @@ sub modifier_entree {
 
             print "(n°)modif (A)jouter \n" ;
             print "Choix : " ;
-            chomp (my $choix = <>) ;
+            chomp(my $choix = <>) ;
             $choix = lc $choix ;
 
             if ( "$choix" eq "a" ) {
                 print "Nouveau téléphone : " ;
-                chomp ( my $nvTel = <> ) ;
+                chomp(my $nvTel = <>) ;
                 push @{$repertoire[$index]{'tels'}} , $nvTel ;
 
             } elsif ( $choix =~ /\d+/x ) {
                 print "Nouveau téléphone : " ;
-                chomp ( my $nvTel = <> ) ;
+                chomp(my $nvTel = <>) ;
                 $repertoire[$index]{'tels'}[$choix] = $nvTel ;
             }
 
@@ -399,17 +399,17 @@ sub modifier_entree {
 
             print "(n°)modif (A)jouter \n" ;
             print "Choix : " ;
-            chomp (my $choix = <>) ;
+            chomp(my $choix = <>) ;
             $choix = lc $choix ;
 
             if ( "$choix" eq "a" ) {
                 print "Nouvelle adresse : " ;
-                chomp ( my $nvAdresse = <> ) ;
+                chomp(my $nvAdresse = <>) ;
                 push @{$repertoire[$index]{'adresse'}} , $nvAdresse ;
 
             } elsif ( $choix =~ /\d+/x ) {
                 print "Nouvelle adresse : " ;
-                chomp ( my $nvAdresse = <> ) ;
+                chomp(my $nvAdresse = <>) ;
                 $repertoire[$index]{'adresse'}[$choix] = $nvAdresse ;
 
             }
@@ -417,7 +417,7 @@ sub modifier_entree {
         } elsif ( "reponse" eq "s" ) {                # suppression de l'entrée
             # message d'invite
             print "Suppimer o/n ? " ;
-            chomp ( my $choix = <> ) ;
+            chomp(my $choix = <>) ;
             $choix = lc $choix ;
 
             # suppression de l'entrée $index
@@ -449,7 +449,7 @@ sub supprimer_entree {
     printf "Êtes-vous sûr de vouloir supprimer : %s %s\n",
             $repertoire[$index]{'prenom'}, $repertoire[$index]{'nom'} ;
     print "o/n : " ;
-    chomp ($reponse = <>) ;
+    chomp($reponse = <>) ;
 
     # suppression de l'entrée
     splice (@repertoire, $index, 1) if ("$reponse" eq "o") ;
@@ -483,7 +483,7 @@ sub aff_liste_entrees {
 
     # message d'invite
     print "Choix : " ;
-    chomp (my $index = <>) ;
+    chomp(my $index = <>) ;
     return if ( "$index" eq "." ) ;
     return if ( "$index" !~ /\d+/x ) ;
 
@@ -499,7 +499,7 @@ sub aff_liste_entrees {
 
     # message d'invite
     print "(M)odifier (S)upprimer (.)retour : " ;
-    chomp ($reponse = <>) ;
+    chomp($reponse = <>) ;
 
     # modifier, supprimer ou sortir
     return                    if ("$reponse" eq ".") ;
@@ -535,7 +535,7 @@ sub rechercher {
     my @trouves ;            # liste des élément trouvés
 
     print "Motif : " ;
-    chomp ( my $motif = <> ) ;
+    chomp(my $motif = <>) ;
 
     # recherche du motif dans @repertoire
     for ( my $index = 0 ; $index < scalar(@repertoire) ; $index++ ) {
