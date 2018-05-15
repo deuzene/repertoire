@@ -20,7 +20,7 @@ Il permet :
 * afficher le répertoire
 * afficher une entrée
 * modifier une entrée
-* tri automatique par ordre alphabétique de prénom 
+* tri par ordre alphabétique de prénom
 
 ## Structure des données
 
@@ -37,7 +37,7 @@ Les données sont stockées dans un AoH un peu particulier :
           }
 ```
 
-Ce `@repertoire` est sauvegardé sur disque dans le fichier `repertoire`.
+Ce `@repertoire` est sauvegardé sur disque dans le fichier `repertoire` par défaut.
 
 # Utilisation
 
