@@ -24,7 +24,7 @@ Il permet :
 
 ## Structure des données
 
-Les données sont stockées dans un AoH un peu particulier :
+Les données sont structurées dans un AoH un peu particulier :
 
 ```
 @repertoire
@@ -37,7 +37,7 @@ Les données sont stockées dans un AoH un peu particulier :
           }
 ```
 
-Ce `@repertoire` est sauvegardé sur disque dans le fichier `repertoire` par défaut.
+Ce `@repertoire` est sauvegardé sur disque grâce au module Storable.
 
 # Utilisation
 
