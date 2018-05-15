@@ -5,40 +5,24 @@ use diagnostics;
 use Smart::Comments;
 use Data::Dumper;
 use feature ":5.24";
+use Storable ;
 
-use Text::LineEditor ;
+my $fichier = "repertoire" ;
+my @repertoire ;
 
-# my $text = line_editor() ;
-# print $text ;
-my @liste = qw/un deux trois quatre cinq six/ ;
-my $text =  join "\n" , @liste ;
+sub ouvrir_repertoire {
+    if ( -e $fichier ) {
+        my $ref = retrieve "$fichier" ;
+        @repertoire = @{$ref} ;
+    } else {
+        # ajouter_entree ; # si le fichier n'existe pas creer repertoire
+    }
+    return ;
+}
+ouvrir_repertoire ;
 
-format REPORT1=
-^<<<<<<<<<<<<<<
-$text
-^<<<<<<<<<<<<<<
-$text
-^<<<<<<<<<<<<<<
-$text
-^<<<<<<<<<<<<<<
-$text
-.
+@repertoire = sort {
+                     $a->{'prenom'} cmp $b->{'prenom'}
+                   } @repertoire ;
 
-format REPORT2=
-@<<<<<<<<<<<<<<
-$text
-@<<<<<<<<<<<<<<
-$text
-@<<<<<<<<<<<<<<
-$text
-@<<<<<<<<<<<<<<
-$text
-.
-
-$~ = "REPORT2" ;
-write ;
-
-$~ = "REPORT1" ;
-write
-
-# print $text . "\n" ;
+                   ### @repertoire

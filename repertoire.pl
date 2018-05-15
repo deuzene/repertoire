@@ -82,16 +82,18 @@ sub is_def {
 # invoque: ajouter_entree si le fichier n'existe pas
 # #############################################################################
 sub ouvrir_repertoire {
+    # test si $fichier existe et charge @repertoire
     if ( -e $fichier ) {
         my $ref = retrieve "$fichier" ;
         @repertoire = @{$ref} ;
     } else {
-        ajouter_entree ; # si le fichier n'existe pas creer repertoire
+        # si le fichier n'existe pas créer @repertoire
+        # en ajoutant la première entrée
+        ajouter_entree ;
     }
     return ;
 }
 
-#TODO: trier le repertoire par ordre alpha. de prénom
 # #############################################################################
 # sub: ecrire_repertoire
 # parcours @repertoire et écrit le fichier repertoire
@@ -99,6 +101,11 @@ sub ouvrir_repertoire {
 # usage: ecrire_repertoire
 # #############################################################################
 sub ecrire_repertoire {
+    # tri par ordre alpha. des prénoms
+    @repertoire = sort {
+                         $a->{'prenom'} cmp $b->{'prenom'}
+                       } @repertoire ;
+    # sauvegarde de @repertoire dans $fichier
     store \@repertoire, "$fichier" ;
     return ;
 }
