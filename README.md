@@ -20,6 +20,7 @@ Il permet :
 * afficher le répertoire
 * afficher une entrée
 * modifier une entrée
+* tri automatique par ordre alphabétique de prénom 
 
 ## Structure des données
 
