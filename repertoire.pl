@@ -5,6 +5,7 @@ use diagnostics ;
 use feature ":5.24" ;
 
 use Storable ;
+use POSIX qw(strxfrm);
 
 # #############################################################################
 # Ce programme est un répertoire permettant de créer des entrées comprenant :
@@ -36,13 +37,9 @@ my @repertoire  ;
 my $fichier = shift ;
 $fichier = "repertoire" if ( ! defined $fichier ) ;
 
-sub affiche_repertoire ;     sub aff_liste_entrees ;    sub ajouter_entree ;
-sub ecrire_repertoire ;      sub modifier_entree ;      sub ouvrir_repertoire ;
-sub rechercher ;             sub supprimer_entree ;     sub is_def;
-sub uniq ;                   sub format_entree ;
 
 # ### programme principal #####################################################
-ouvrir_repertoire ;
+ouvrir_repertoire () ;
 
 while (1){
     # message d'invite
@@ -51,14 +48,14 @@ while (1){
     print "Choix : " ;
     chomp(my $choix = <>) ;
 
-    ajouter_entree        if ($choix eq "a") ;
-    rechercher            if ($choix eq "r") ;
-    affiche_repertoire    if ($choix eq "v") ;
+    ajouter_entree ()     if ($choix eq "a") ;
+    rechercher ()         if ($choix eq "r") ;
+    affiche_repertoire () if ($choix eq "v") ;
 
     exit                  if ($choix eq ".") ;
 }
 
-ecrire_repertoire ;
+ecrire_repertoire () ;
 # ### fin programme principal #################################################
 
 # #############################################################################
@@ -89,7 +86,7 @@ sub ouvrir_repertoire {
     } else {
         # si le fichier n'existe pas créer @repertoire
         # en ajoutant la première entrée
-        ajouter_entree ;
+        ajouter_entree () ;
     }
     return ;
 }
@@ -102,8 +99,10 @@ sub ouvrir_repertoire {
 # #############################################################################
 sub ecrire_repertoire {
     # tri par ordre alpha. des prénoms
+    # strxfrm parce que use locale ne marche pas !
+    # https://www.developpez.net/forums/d1854403/autres-langages/perl/langage/trier-ordre-alphabetique-chaines-comportant-caracteres-accentues/
     @repertoire = sort {
-                         $a->{'prenom'} cmp $b->{'prenom'}
+                        strxfrm($a->{'prenom'}) cmp strxfrm($b->{'prenom'})
                        } @repertoire ;
     # sauvegarde de @repertoire dans $fichier
     store \@repertoire, "$fichier" ;
@@ -170,7 +169,7 @@ sub ajouter_entree {
     }
 
     # Sortie
-    ecrire_repertoire ;
+    ecrire_repertoire () ;
     return ;
 }
 
@@ -437,7 +436,7 @@ sub modifier_entree {
     }
 
     # sortie
-    ecrire_repertoire ;
+    ecrire_repertoire () ;
     return ;
 }
 
@@ -462,7 +461,7 @@ sub supprimer_entree {
     # suppression de l'entrée
     splice (@repertoire, $index, 1) if ("$reponse" eq "o") ;
 
-    ecrire_repertoire ;
+    ecrire_repertoire () ;
     return ;
 }
 
@@ -592,3 +591,4 @@ sub rechercher {
 
     return ;
 }
+
